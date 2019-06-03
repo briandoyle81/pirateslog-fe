@@ -30,7 +30,6 @@ class App extends Component {
             user: null, 
             token: '',
         };
-        console.log(this.state)
     }
     
     handleLoginStateChange = (loginState) => {

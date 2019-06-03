@@ -109,15 +109,10 @@ function RemoteData() {
           data={query => //TODO: Deal with pagination AND cache this
             new Promise((resolve, reject) => {
                 let url = BE_SERVER + "/api/entries/";
-                console.log(query)
                 url += '?limit=' + query.pageSize;
                 url += '&offset=' + (query.page + 1);
-                console.log('query.page', query.page);
-                console.log(url);
               axios.get(url)
                 .then(result => {
-                    console.log("loaded data for table");
-                    console.log(result)
                     resolve({
                         data: result.data.results,
                         page: query.page,
