@@ -35,7 +35,6 @@ function RemoteData() {
         }
     }
 
-   
       return (
         <MaterialTable
             title="Pirate's Log"
@@ -129,7 +128,6 @@ function RemoteData() {
           }
         />
       )
-    
   }
 
 export default RemoteData;
