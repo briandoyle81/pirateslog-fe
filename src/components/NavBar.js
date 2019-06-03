@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -51,8 +51,8 @@ function NavBar(props) {
       // TODO: This seems repititious.  
       props.handleLoginStateChange( { 
         isAuthenticated: true, 
-        user: response.profileObj, 
-        token: response.accessToken} );
+        user: user, 
+        token: token} );
 
       setIsAuthenticated(true);
       setUser(response.profileObj);

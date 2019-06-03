@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Pirate's Log",
+    "short_name": "Pirate's Log",
     "icons": [
         {
             "src": "/public/android-chrome-192x192.png",
