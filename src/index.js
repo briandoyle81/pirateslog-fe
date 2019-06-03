@@ -5,7 +5,6 @@ import './index.css';
 // oauth login 
 // import TwitterLogin from 'react-twitter-auth';
 // import FacebookLogin from 'react-facebook-login';
-import { GoogleLogin } from 'react-google-login';
 
 // Material-UI Components
 import Container from '@material-ui/core/Container';
@@ -14,18 +13,6 @@ import NavBar from './components/NavBar.js'
 import RemoteData from './components/MaterialTableLog'
 import SimpleModal from './components/OpenLog'
 import FormDialog from './components/EnterLogForm'
-
-const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-
-  class LandingPage extends React.Component {
-    render() {
-      return (// I think the this.props.onclick will bubble up that this was clicked?
-        <div className="landing-page">
-          <p>This is the Landing Page.  Login!</p>
-        </div>
-      )
-    }
-  }
 
 //   class App extends React.Component {
 //     constructor(props) {
@@ -93,6 +80,7 @@ class App extends Component {
                 user: response.profileObj.email, 
                 token: response.accessToken,
             });
+
         // const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
         // const options = {
         //     method: 'POST',
@@ -112,38 +100,52 @@ class App extends Component {
         // })
     };
 
-    render() { // Per internet !! is just an obscure way to do a conversion to bool.
-    let content = !!this.state.isAuthenticated ?
-            (
-                <div>
-                    <p>Authenticated</p>
-                    <div>
-                        {this.state.user}
-                    </div>
-                    <div>
-                        <button onClick={this.logout} className="button">
-                            Log out
-                        </button>
-                    </div>
-                </div>
-            ) :
-            (
-                <div>
-                    <GoogleLogin
-                        clientId={ GOOGLE_CLIENT_ID }
-                        buttonText="Login"
-                        onSuccess={this.googleResponse}
-                        onFailure={this.onFailure}
-                    />
-                </div>
-            );
-
+    render () {
         return (
-            <div className="App">
-                {content}
+            <div className="app">
+                <NavBar />
+                <Container maxWidth="lg">
+                    <Divider />
+                    <RemoteData />
+                    <SimpleModal />
+                    <FormDialog />
+                </Container>
             </div>
-        );
-    }
+        )
+}
+
+    // render() { // Per internet !! is just an obscure way to do a conversion to bool.
+    // let content = !!this.state.isAuthenticated ?
+    //         (
+    //             <div>
+    //                 <p>Authenticated</p>
+    //                 <div>
+    //                     {this.state.user}
+    //                 </div>
+    //                 <div>
+    //                     <button onClick={this.logout} className="button">
+    //                         Log out
+    //                     </button>
+    //                 </div>
+    //             </div>
+    //         ) :
+    //         (
+    //             <div>
+    //                 <GoogleLogin
+    //                     clientId={ GOOGLE_CLIENT_ID }
+    //                     buttonText="Login"
+    //                     onSuccess={this.googleResponse}
+    //                     onFailure={this.onFailure}
+    //                 />
+    //             </div>
+    //         );
+
+    //     return (
+    //         <div className="App">
+    //             {content}
+    //         </div>
+    //     );
+    // }
 }
 
   // ========================================
