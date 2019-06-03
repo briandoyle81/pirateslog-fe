@@ -24,18 +24,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function NavBar(props) {
-    console.log('navbar props');
-    console.log(props);
     const classes = useStyles();
     const [isAuthenticated, setIsAuthenticated] = useState(props.data.isAuthenticated);
     const [user, setUser] = useState(props.data.setUser);
     const [token, setToken] = useState(props.data.setToken);
-
-    // useEffect(() => {
-    //   alert();
-    // })
-
-    console.log('is authed', isAuthenticated);
 
     const logout = () => {
       props.handleLoginStateChange( { 
@@ -51,11 +43,10 @@ function NavBar(props) {
     const onFailure = (error) => {
       console.log("Error");
       console.log(error);
-      alert(error);
+      alert("Google Auth Failure");
     }
 
     const googleResponse = (response) => {
-      console.log(response);
 
       // TODO: This seems repititious.  
       props.handleLoginStateChange( { 
