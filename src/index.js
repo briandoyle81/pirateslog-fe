@@ -16,41 +16,39 @@ import FormDialog from './components/EnterLogForm'
 
 class App extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        // TODO: Confirm this is the right way to do ES6+
+        this.setLoginState = this.setLoginState.bind(this);
+
         this.state = { isAuthenticated: false, user: null, token: ''};
+        console.log(this.state)
+    }
+    
+    setLoginState = (loginState) => {
+        console.log("login state being set");
+        console.log(loginState);
+        this.state = this.setState(loginState);
+        console.log("this.state");
+        console.log(this.state);
     }
 
-    logout = () => {
-        this.setState({isAuthenticated: false, token: '', user: null})
-    };
-
-    onFailure = (error) => {
-        console.log("Error");
-        console.log(error);
-        alert(error);
-    };
-
-    googleResponse = (response) => {
-        console.log(response);
-
-        this.setState(
-            {
-                isAuthenticated: true, 
-                user: response.profileObj.email, 
-                token: response.accessToken,
-            });
-    };
+    addLog = this.isAuthenticated ? 
+    (
+        <FormDialog />
+    ):
+    (
+        <div>Log in to Submit!</div>
+    );
 
     render () {
         return (
             <div className="app">
-                <NavBar />
+                <NavBar data={this.state} setLoginState= { this.setLoginState } />
                 <Container maxWidth="lg">
                     <Divider />
                     <RemoteData />
-                    <SimpleModal />
-                    <FormDialog />
+                    { this.addLog}
                 </Container>
             </div>
         )

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,13 +23,26 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NavBar() {
+function NavBar(props) {
+    console.log('navbar props');
+    console.log(props);
     const classes = useStyles();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(props.data.isAuthenticated);
+    const [user, setUser] = useState(props.data.setUser);
+    const [token, setToken] = useState(props.data.setToken);
+
+    // useEffect(() => {
+    //   alert();
+    // })
+
+    console.log('is authed', isAuthenticated);
 
     const logout = () => {
+      props.setLoginState( { 
+        isAuthenticated: false, 
+        user: null, 
+        token: null} );
+
       setIsAuthenticated(false);
       setUser(null);
       setToken(null);
@@ -43,6 +56,11 @@ function NavBar() {
 
     const googleResponse = (response) => {
       console.log(response);
+
+      props.setLoginState( { 
+        isAuthenticated: true, 
+        user: response.profileObj, 
+        token: response.accessToken} );
 
       setIsAuthenticated(true);
       setUser(response.profileObj);
