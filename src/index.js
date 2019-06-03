@@ -19,36 +19,32 @@ class App extends Component {
     constructor(props) {
         super(props);
         // TODO: Confirm this is the right way to do ES6+
-        this.setLoginState = this.setLoginState.bind(this);
+        this.handleLoginStateChange = this.handleLoginStateChange.bind(this);
 
         this.state = { isAuthenticated: false, user: null, token: ''};
         console.log(this.state)
     }
     
-    setLoginState = (loginState) => {
-        console.log("login state being set");
-        console.log(loginState);
-        this.state = this.setState(loginState);
-        console.log("this.state");
-        console.log(this.state);
+    handleLoginStateChange = (loginState) => {
+        this.setState(loginState);
     }
 
-    addLog = this.isAuthenticated ? 
-    (
-        <FormDialog />
-    ):
-    (
-        <div>Log in to Submit!</div>
-    );
-
     render () {
+        let addLog = !!this.state.isAuthenticated ? 
+        (
+            <FormDialog />
+        ):
+        (
+            <div>Log in to Submit!</div>
+        );
+
         return (
             <div className="app">
-                <NavBar data={this.state} setLoginState= { this.setLoginState } />
+                <NavBar data={this.state} handleLoginStateChange={ this.handleLoginStateChange } />
                 <Container maxWidth="lg">
                     <Divider />
                     <RemoteData />
-                    { this.addLog}
+                    { addLog }
                 </Container>
             </div>
         )

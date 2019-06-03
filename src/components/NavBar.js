@@ -38,7 +38,7 @@ function NavBar(props) {
     console.log('is authed', isAuthenticated);
 
     const logout = () => {
-      props.setLoginState( { 
+      props.handleLoginStateChange( { 
         isAuthenticated: false, 
         user: null, 
         token: null} );
@@ -57,7 +57,8 @@ function NavBar(props) {
     const googleResponse = (response) => {
       console.log(response);
 
-      props.setLoginState( { 
+      // TODO: This seems repititious.  
+      props.handleLoginStateChange( { 
         isAuthenticated: true, 
         user: response.profileObj, 
         token: response.accessToken} );
