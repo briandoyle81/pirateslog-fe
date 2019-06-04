@@ -9,6 +9,9 @@ import './index.css';
 // Material-UI Components
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+
+// Custom Components
 import NavBar from './components/NavBar.js'
 import RemoteData from './components/MaterialTableLog'
 import EnterLog from './components/EnterLogForm'
@@ -44,7 +47,7 @@ class App extends Component {
             <EnterLog />
         ):
         (
-            <div>Log in to Submit!</div>
+            <Typography variant="h6">Login to Submit!</Typography>
         );
 
         return (
