@@ -11,8 +11,8 @@ const BE_SERVER = process.env.REACT_APP_BE_SERVER;
 
 function RemoteData(props) {
     const [isAuthenticated, setIsAuthenticated] = useState(props.data.isAuthenticated);
-    const [user, setUser] = useState(props.data.user);
-    const [token, setToken] = useState(props.data.token);
+    const [googleUser, setGoogleUser] = useState(props.data.googleUser);
+    const [googleToken, setGoogleToken] = useState(props.data.googleUser);
     const [beToken, setBeToken] = useState(props.data.beToken);
 
     function getShipIcon(shipType) {
@@ -113,7 +113,7 @@ function RemoteData(props) {
           ]}
           data={query => //TODO: Deal with pagination AND cache this
             new Promise((resolve, reject) => {
-                let url = BE_SERVER + "/api/entries/";
+                let url = BE_SERVER + "/api/my_entries/"; //TODO: Change dynamically and handle anon
                 url += '?limit=' + query.pageSize;
                 url += '&offset=' + (query.page + 1);
                 let config = {
@@ -121,6 +121,7 @@ function RemoteData(props) {
                       'Authorization': 'Token  ' + beToken
                     }
                   }
+                  console.log(config)
               axios.get(url, config)
                 .then(result => {
                     resolve({

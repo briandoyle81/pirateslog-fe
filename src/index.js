@@ -30,8 +30,8 @@ class App extends Component {
 
         this.state = { 
             isAuthenticated: false, 
-            user: null, 
-            token: null, // TODO: This is now token object. Rename or refactor
+            googleUser: null, 
+            googleToken: null, // TODO: This is now token object. Rename or refactor
             beToken: null,
         };
     }
