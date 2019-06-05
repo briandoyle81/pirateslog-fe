@@ -30,6 +30,7 @@ function NavBar(props) {
     const [token, setToken] = useState(props.data.setToken);
 
     const logout = () => {
+      console.log("Logging Out");
       props.handleLoginStateChange( { 
         isAuthenticated: false, 
         user: null, 
@@ -58,7 +59,7 @@ function NavBar(props) {
       setUser(response.profileObj);
       setToken(response.tokenObj);
 
-      // console.log(JSON.stringify(response.tokenObj));
+      console.log(JSON.stringify(response.tokenObj));
     }
     
     let loginButton = isAuthenticated ? 
