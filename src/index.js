@@ -31,7 +31,8 @@ class App extends Component {
         this.state = { 
             isAuthenticated: false, 
             user: null, 
-            token: '',
+            token: '', // TODO: This is now token object. Rename or refactor
+            beToken: '',
         };
     }
     
@@ -39,6 +40,8 @@ class App extends Component {
         console.log("handling login state change");
         console.log(loginState);
         this.setState(loginState);
+
+        // If we're authed in the fe, get auth token from Django
         if(this.state.isAuthenticated) {
             console.log("isAuthed is true")
             let beServerAuthURL = BE_SERVER + "/social/google-oauth2/"; // TODO:  Make dynamic
@@ -47,6 +50,7 @@ class App extends Component {
             axios.post(beServerAuthURL, this.state.token) 
                 .then((response) => {
                     console.log(response);
+                    this.state.beToken = response.data.token;
                 })
                 .catch((error) => {
                     console.log(error);
