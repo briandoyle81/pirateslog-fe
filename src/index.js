@@ -31,35 +31,52 @@ class App extends Component {
         this.state = { 
             isAuthenticated: false, 
             user: null, 
-            token: '', // TODO: This is now token object. Rename or refactor
-            beToken: '',
+            token: null, // TODO: This is now token object. Rename or refactor
+            beToken: null,
         };
     }
-    
-    handleLoginStateChange = (loginState) => {
+                                //TODO: rename loginState to google token
+    handleLoginStateChange = (token) => {
         console.log("handling login state change");
-        this.setState(loginState);
+       
         // If we're authed in the fe, get auth token from Django
-        if(loginState.isAuthenticated) {
-            console.log("isAuthed is true")
+        if(token != null) {
+            console.log("attempting be auth")
             let beServerAuthURL = BE_SERVER + "/social/google-oauth2/"; // TODO:  Make dynamic
             console.log("token in beConnection");
-            console.log(this.state.token);
-            axios.post(beServerAuthURL, this.state.token) 
+            console.log(token);
+            axios.post(beServerAuthURL, token) 
                 .then((response) => {
                     console.log(response);
-                    this.state.beToken = response.data.token;  
+                    let newState = { 
+                        isAuthenticated: true, 
+                        user: "TODO", 
+                        token: token, // TODO: This is now token object. Rename or refactor
+                        beToken: response.token,
+                    };
+                    this.setState(newState);
                 })
                 .catch((error) => {
                     console.log(error);
                 } )
+        } else {
+            let newState = { 
+                isAuthenticated: false, 
+                user: null, 
+                token: null, // TODO: This is now token object. Rename or refactor
+                beToken: null,
+            };
+            this.setState(newState);
         }
     }
 
     render () {
         let addLog = !!this.state.isAuthenticated ? 
         (
-            <EnterLog />
+            <div>
+                <RemoteData data={this.state} />
+                <EnterLog />
+            </div>
         ):
         (
             <Typography variant="h6">Login to Submit!</Typography>
@@ -70,7 +87,7 @@ class App extends Component {
                 <NavBar data={this.state} handleLoginStateChange={ this.handleLoginStateChange } />
                 <Container maxWidth="lg">
                     <Divider />
-                    <RemoteData />
+                    
                     { addLog }
                 </Container>
             </div>

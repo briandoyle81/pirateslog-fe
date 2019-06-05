@@ -25,19 +25,12 @@ const useStyles = makeStyles(theme => ({
 
 function NavBar(props) {
     const classes = useStyles();
-    const [isAuthenticated, setIsAuthenticated] = useState(props.data.isAuthenticated);
-    const [user, setUser] = useState(props.data.setUser);
-    const [token, setToken] = useState(props.data.setToken);
+    const [token, setToken] = useState(props.data.token);
 
     const logout = () => {
       console.log("Logging Out");
-      props.handleLoginStateChange( { 
-        isAuthenticated: false, 
-        user: null, 
-        token: null} );
+      props.handleLoginStateChange( null );
 
-      setIsAuthenticated(false);
-      setUser(null);
       setToken(null);
     }
 
@@ -48,21 +41,15 @@ function NavBar(props) {
     }
 
     const googleResponse = (response) => {
-      console.log(response);
-      // TODO: This seems repititious.  
-      props.handleLoginStateChange( { 
-        isAuthenticated: true, 
-        user: response.profileObj.email, 
-        token: response.tokenObj} );
+      props.handleLoginStateChange(
+        response.tokenObj );
 
-      setIsAuthenticated(true);
-      setUser(response.profileObj);
       setToken(response.tokenObj);
 
-      console.log(JSON.stringify(response.tokenObj));
+      // console.log(JSON.stringify(response.tokenObj));
     }
     
-    let loginButton = isAuthenticated ? 
+    let loginButton = token != null ? 
       (
         <Button onClick={ logout } color="inherit">Logout</Button>
       ):

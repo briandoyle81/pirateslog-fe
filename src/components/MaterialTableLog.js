@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -9,7 +9,18 @@ const axios = require('axios');
 const DEBUG_TOKEN = process.env.REACT_APP_DEBUG_TOKEN;
 const BE_SERVER = process.env.REACT_APP_BE_SERVER;
 
-function RemoteData() {
+function RemoteData(props) {
+    const [isAuthenticated, setIsAuthenticated] = useState(props.data.isAuthenticated);
+    const [user, setUser] = useState(props.data.user);
+    const [token, setToken] = useState(props.data.token);
+    const [beToken, setBeToken] = useState(props.data.beToken);
+
+    useEffect(() => {
+        console.log("using effect in material table");
+        setBeToken(props.data.beToken);
+        console.log("beToken", beToken);
+    })
+
     function getShipIcon(shipType) {
         switch(shipType) {
             case 'U':
@@ -111,13 +122,23 @@ function RemoteData() {
                 let url = BE_SERVER + "/api/entries/";
                 url += '?limit=' + query.pageSize;
                 url += '&offset=' + (query.page + 1);
-              axios.get(url)
+                console.log("beToken ", beToken)
+                let config = {
+                    headers: {
+                      'Authorization': 'Token  ' + beToken
+                    }
+                  }
+                  console.log("config: ", config);
+              axios.get(url, config)
                 .then(result => {
                     resolve({
                         data: result.data.results,
                         page: query.page,
                         totalCount: result.data.count,
                     })
+                })
+                .catch((error) => {
+                    console.log(error);
                 })
             })
           }
