@@ -47,18 +47,18 @@ function NavBar(props) {
     }
 
     const googleResponse = (response) => {
-
+      console.log(response);
       // TODO: This seems repititious.  
       props.handleLoginStateChange( { 
         isAuthenticated: true, 
-        user: user, 
-        token: token} );
+        user: response.profileObj.email, 
+        token: response.tokenObj} );
 
       setIsAuthenticated(true);
       setUser(response.profileObj);
-      setToken(response.accessToken);
+      setToken(response.tokenObj);
 
-      console.log(response);
+      // console.log(JSON.stringify(response.tokenObj));
     }
     
     let loginButton = isAuthenticated ? 

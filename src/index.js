@@ -36,9 +36,22 @@ class App extends Component {
     }
     
     handleLoginStateChange = (loginState) => {
+        console.log("handling login state change");
+        console.log(loginState);
         this.setState(loginState);
-
-
+        if(this.state.isAuthenticated) {
+            console.log("isAuthed is true")
+            let beServerAuthURL = BE_SERVER + "/social/google-oauth2/"; // TODO:  Make dynamic
+            console.log("token in beConnection");
+            console.log(this.state.token);
+            axios.post(beServerAuthURL, this.state.token) 
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                } )
+        }
     }
 
     render () {
