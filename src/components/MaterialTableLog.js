@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -14,12 +14,6 @@ function RemoteData(props) {
     const [user, setUser] = useState(props.data.user);
     const [token, setToken] = useState(props.data.token);
     const [beToken, setBeToken] = useState(props.data.beToken);
-
-    useEffect(() => {
-        console.log("using effect in material table");
-        setBeToken(props.data.beToken);
-        console.log("beToken", beToken);
-    })
 
     function getShipIcon(shipType) {
         switch(shipType) {
@@ -122,13 +116,11 @@ function RemoteData(props) {
                 let url = BE_SERVER + "/api/entries/";
                 url += '?limit=' + query.pageSize;
                 url += '&offset=' + (query.page + 1);
-                console.log("beToken ", beToken)
                 let config = {
                     headers: {
                       'Authorization': 'Token  ' + beToken
                     }
                   }
-                  console.log("config: ", config);
               axios.get(url, config)
                 .then(result => {
                     resolve({

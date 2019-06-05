@@ -39,20 +39,18 @@ class App extends Component {
     handleLoginStateChange = (token) => {
         console.log("handling login state change");
        
-        // If we're authed in the fe, get auth token from Django
+        // If we're authed in the fe from google, get auth token from Django
         if(token != null) {
-            console.log("attempting be auth")
             let beServerAuthURL = BE_SERVER + "/social/google-oauth2/"; // TODO:  Make dynamic
-            console.log("token in beConnection");
-            console.log(token);
+           
             axios.post(beServerAuthURL, token) 
                 .then((response) => {
-                    console.log(response);
+                    console.log("BE response: ", response);
                     let newState = { 
                         isAuthenticated: true, 
                         user: "TODO", 
                         token: token, // TODO: This is now token object. Rename or refactor
-                        beToken: response.token,
+                        beToken: response.data.token,
                     };
                     this.setState(newState);
                 })
