@@ -57,6 +57,8 @@ function NavBar(props) {
       setIsAuthenticated(true);
       setUser(response.profileObj);
       setToken(response.accessToken);
+
+      console.log(response);
     }
     
     let loginButton = isAuthenticated ? 
