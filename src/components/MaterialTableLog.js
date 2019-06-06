@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MaterialTable, { MTableToolbar } from 'material-table';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -26,6 +26,10 @@ function RemoteData(props) {
         showOnlyUserEntries: false,
         getEndpoint: SHOW_ALL_ENDPOINT,
         label: "Show All Log Entries",
+    })
+
+    useEffect(() => {
+        console.log("using effect, token prop is: ", props.data.beToken);
     })
 
     const handleSwitch = name => event => {
@@ -159,35 +163,34 @@ function RemoteData(props) {
             },
         ]}
         data={query => //TODO: Deal with pagination AND cache this
-            new Promise((resolve, reject) => {
-                console.log("loading entry list")
+           new Promise((resolve, reject) => {
                 let url = BE_SERVER + SHOW_ALL_ENDPOINT;
-                url += '?limit=' + query.pageSize;
-                url += '&offset=' + (query.page + 1);
-                let config = ''
-                if(state.beToken !== null && state.showOnlyUserEntries === true) {
-                    url = BE_SERVER + SHOW_ALL_ENDPOINT;
+                let config = {}
+                console.log(props.data.beToken)
+                if(props.data.beToken != null) {
+                    url = BE_SERVER + SHOW_MY_ENDPOINT;
                     config = {
                         headers: {
-                        'Authorization': 'Token  ' + state.beToken
+                            'Authorization': 'Token  ' + props.data.beToken
                         }
                     }
-                    console.log(config)
                 }
-            axios.get(url, config)
-                .then(result => {
-                    resolve({
-                        data: result.data.results,
-                        page: query.page,
-                        totalCount: result.data.count,
-                    })
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            })
-        }
-        components={ tableHeader }
+                url += '?limit=' + query.pageSize;
+                url += '&offset=' + query.page;
+             axios.get(url, config)
+               .then(result => {
+                   console.log(result)
+                   resolve({
+                       data: result.data.results,
+                       page: query.page,
+                       totalCount: result.data.count,
+                   })
+               })
+               .catch((error) => {
+                   console.log(error);
+               })
+           })
+         }
         />
     )
   }
