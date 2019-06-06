@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 function EnterLog(props) {
   const [open, setOpen] = React.useState(false);
+  
 
   function handleClickOpen() {
     setOpen(true);
@@ -24,11 +25,13 @@ function EnterLog(props) {
         Add New Log
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Enter a New Log Entry</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+            TODO: [Name]s log
+          </DialogContentText>
+          <DialogContentText>
+            TODO: [Date Picker
           </DialogContentText>
           <TextField
             autoFocus

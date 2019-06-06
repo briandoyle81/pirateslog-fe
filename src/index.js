@@ -72,8 +72,7 @@ class App extends Component {
         let addLog = !!this.state.isAuthenticated ? 
         (
             <div>
-                <RemoteData data={this.state} />
-                <EnterLog />
+                <EnterLog data={this.state}/>
             </div>
         ):
         (
@@ -85,7 +84,7 @@ class App extends Component {
                 <NavBar data={this.state} handleLoginStateChange={ this.handleLoginStateChange } />
                 <Container maxWidth="lg">
                     <Divider />
-                    
+                    <RemoteData data={this.state} />
                     { addLog }
                 </Container>
             </div>
