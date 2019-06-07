@@ -17,20 +17,24 @@ const SHOW_ALL_ENDPOINT = "/api/entries/";
 const SHOW_MY_ENDPOINT = "/api/my_entries/";
 
 function RemoteData(props) {
-    console.log("props at top of RemoteData are: ", props)
     // const [isAuthenticated, setIsAuthenticated] = useState(props.data.isAuthenticated);
     // const [googleUser, setGoogleUser] = useState(props.data.googleUser);
     // const [googleToken, setGoogleToken] = useState(props.data.googleUser);
     // const [beToken, setBeToken] = useState(props.data.beToken);
     const [state, setState] = React.useState({
-        beToken: props.beToken,
         showOnlyUserEntries: false,
-        getEndpoint: SHOW_ALL_ENDPOINT,
-        label: "Show All Log Entries",
     })
+    const tableRef = React.createRef();
 
     useEffect(() => {
-        console.log("using effect, props are: ", props);
+        // console.log("using effect, props are: ", props);
+        tableRef.current.onQueryChange() //TODO:  Figure out why this works
+        // console.log("tableref is", tableRef.current)
+        // let tablestate = tableRef.current.state;
+        // tablestate.query.page = 0;
+        // tableRef.current.setState
+        
+        // TODO set query.page to zero ^^
     })
 
     const handleSwitch = name => event => {
@@ -40,6 +44,7 @@ function RemoteData(props) {
         if(name === 'showOnlyUserEntries') {
             console.log('changed showOnlyUserEntries', state.showOnlyUserEntries);
         }
+        console.log("state in handleSwitch: ", state)
     }
 
     function getShipIcon(shipType) {
@@ -68,23 +73,21 @@ function RemoteData(props) {
     }
     const tableHeader = props.beToken != null ? 
     (
-        
-                <div style={ {padding: '10px 10px'} }>
-                        <FormGroup row>
-                            <FormControlLabel
-                                control={
-                                    <Switch 
-                                        checked={ state.showOnlyUserEntries }
-                                        onChange={ handleSwitch('showOnlyUserEntries') }
-                                        value="showOnlyUserEntries"
-                                        inputProps={{ 'aria-label': 'primary checkbox'} }
-                                    />
-                                }
-                                label="Show All Logs"
+        <div style={ {padding: '10px 10px'} }>
+                <FormGroup row>
+                    <FormControlLabel
+                        control={
+                            <Switch 
+                                checked={ state.showOnlyUserEntries }
+                                onChange={ handleSwitch('showOnlyUserEntries') }
+                                value="showOnlyUserEntries"
+                                inputProps={{ 'aria-label': 'primary checkbox'} }
                             />
-                        </FormGroup>
-                </div>
-           
+                        }
+                        label="Show All Logs"
+                    />
+                </FormGroup>
+        </div>
     ):
     (
        <div></div> // Override toolbar with empty div
@@ -93,7 +96,8 @@ function RemoteData(props) {
     return (
     <div>
         <MaterialTable
-            title={props.beToken}
+            title={'All Logs'}
+            tableRef={tableRef}
             columns={[
             {
                 title: 'Date',
@@ -162,11 +166,10 @@ function RemoteData(props) {
                 ),
             },
         ]}
-        data={query => //TODO: Deal with pagination AND cache this
+        data={ query => 
             new Promise((resolve, reject) => {
                 let url = BE_SERVER + SHOW_ALL_ENDPOINT;
                 let config = {}
-                console.log(props.beToken)
                 if(props.beToken != null) {
                     url = BE_SERVER + SHOW_MY_ENDPOINT;
                     config = {
@@ -179,7 +182,6 @@ function RemoteData(props) {
                 url += '&offset=' + query.page;
                 axios.get(url, config)
                 .then(result => {
-                    console.log(result)
                     resolve({
                         data: result.data.results,
                         page: query.page,
@@ -191,8 +193,16 @@ function RemoteData(props) {
                 })
             })}
             components={{//TODO: Inline style
-            Toolbar: props => ( tableHeader )
+                Toolbar: props => ( tableHeader )
             }}
+            actions={[
+                {
+                    icon: 'refresh',
+                    tooltip: 'Refresh Data',
+                    isFreeAction: true,
+                    onClick: () => tableRef.current && tableRef.current.onQueryChange(),
+                }
+            ]}
         />
     </div>
 )}
