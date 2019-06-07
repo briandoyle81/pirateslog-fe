@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import NavBar from './components/NavBar.js'
 import RemoteData from './components/MaterialTableLog'
 import EnterLog from './components/EnterLogForm'
+import GetGamertag from './components/GetGamerTag';
 
 // Axios and Django
 const axios = require('axios');
@@ -30,40 +31,68 @@ class App extends Component {
 
         this.state = { 
             isAuthenticated: false, 
-            googleUser: 'none', 
-            googleToken: null, // TODO: This is now token object. Rename or refactor
+            userProfile: null,
             beToken: null,
+            islands: null,
         };
+
+        this.getIslands(); // Get and cache the list of islands
+    }
+
+    getIslands = () => {
+        axios.get(BE_SERVER + '/api/islands/') 
+            .then((response) => {
+                let newState = this.state;
+                newState.islands = response.data;
+                this.setState(newState);
+            })
+            .catch((error) => {
+                console.log(error);
+        })
     }
                                 //TODO: rename loginState to google token
     handleLoginStateChange = (token) => {
-        console.log("handling login state change");
-       
         // If we're authed in the fe from google, get auth token from Django
         if(token != null) {
             let beServerAuthURL = BE_SERVER + "/social/google-oauth2/"; // TODO:  Make dynamic
            
             axios.post(beServerAuthURL, token) 
                 .then((response) => {
-                    console.log("BE response: ", response);
-                    let newState = { 
-                        isAuthenticated: true, 
-                        user: "TODO", 
-                        token: token, // TODO: This is now token object. Rename or refactor
-                        beToken: response.data.token,
-                    };
+                    let newState = this.state;
+                    
+                    newState.isAuthenticated = true; 
+                    newState.user = "TODO"; 
+                    newState.token = token; // TODO: This is now token object. Rename or refactor
+                    newState.beToken = response.data.token;
                     this.setState(newState);
+
+                    // Use the django beToken to get the user profile
+                    // TODO: Should be able to return both from first call
+                    console.log("be response to auth: ", response)
+                    let config = {
+                        headers: {
+                            'Authorization': 'Token  ' + response.data.token
+                        }
+                    }
+                    axios.get(BE_SERVER + "/api/my_profile/", config)
+                    .then((response => {
+                        console.log("My Profile: ", response);
+                    }))
+                    .catch((error) => {
+                        console.log("Error getting profile", error);
+                    })
                 })
                 .catch((error) => {
                     console.log(error);
-                } )
+            })
         } else {
-            let newState = { 
-                isAuthenticated: false, 
-                user: null, 
-                token: null, // TODO: This is now token object. Rename or refactor
-                beToken: null,
-            };
+            let newState = this.state;
+                    
+            newState.isAuthenticated = false; 
+            newState.user = "null"; 
+            newState.token = null; // TODO: This is now token object. Rename or refactor
+            newState.beToken = null;
+
             this.setState(newState);
         }
     }
@@ -73,6 +102,7 @@ class App extends Component {
         (
             <div>
                 <EnterLog data={this.state}/>
+                <GetGamertag data={this.state}/>
             </div>
         ):
         (
