@@ -77,6 +77,9 @@ class App extends Component {
                     axios.get(BE_SERVER + "/api/my_profile/", config)
                     .then((response => {
                         console.log("My Profile: ", response);
+                        let newState = this.state;
+                        newState.userProfile = response.data[0];
+                        this.setState(newState);
                     }))
                     .catch((error) => {
                         console.log("Error getting profile", error);

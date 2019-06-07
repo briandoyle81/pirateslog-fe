@@ -70,7 +70,7 @@ function NavBar(props) {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Pirate's Log
+              { props.data.userProfile != null ? props.data.userProfile.gamertag + "'s Log" : "Pirate's Log"}
             </Typography>
             { loginButton }
           </Toolbar>
