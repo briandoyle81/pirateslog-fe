@@ -100,12 +100,17 @@ class App extends Component {
         }
     }
 
+    handleGamertagChange = (newName) => {
+        console.log("changing name to ", newName);
+    }
+
     render () {
         let addLog = this.state.isAuthenticated ? 
         (
             <div>
                 <EnterLog data={this.state}/>
-                <GetGamertag data={this.state}/>
+                <div>Debug Controls</div>
+                <GetGamertag data={this.state} handleGamertagChange={this.handleGamertagChange}/>
             </div>
         ):
         (
@@ -114,7 +119,7 @@ class App extends Component {
 
         return (
             <div className="app">
-                <NavBar data={this.state} handleLoginStateChange={ this.handleLoginStateChange } />
+                <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange} />
                 <Container maxWidth="lg">
                     <Divider />
                     <RemoteData beToken={this.state.beToken}/>

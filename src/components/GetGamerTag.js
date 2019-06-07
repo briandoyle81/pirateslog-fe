@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,9 +8,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 function GetGamertag(props) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(false);
+  const [enteredTag, setEnteredTag] = useState("");
   
-
   function handleClickOpen() {
     setOpen(true);
   }
@@ -18,6 +18,15 @@ function GetGamertag(props) {
   function handleClose() {
     setOpen(false);
   }
+
+  function handleUpdate() {
+    props.handleGamertagChange(enteredTag);
+    handleClose();
+  }
+
+  const handleInput = event => {
+    setEnteredTag(event.target.value);
+  };
 
   return (
     <div>
@@ -34,13 +43,14 @@ function GetGamertag(props) {
             label="Gamertag"
             type="text"
             fullWidth
+            onChange={handleInput}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleUpdate} color="primary">
             Update
           </Button>
         </DialogActions>
