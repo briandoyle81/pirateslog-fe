@@ -30,7 +30,7 @@ class App extends Component {
 
         this.state = { 
             isAuthenticated: false, 
-            googleUser: null, 
+            googleUser: 'none', 
             googleToken: null, // TODO: This is now token object. Rename or refactor
             beToken: null,
         };
@@ -69,7 +69,7 @@ class App extends Component {
     }
 
     render () {
-        let addLog = !!this.state.isAuthenticated ? 
+        let addLog = this.state.isAuthenticated ? 
         (
             <div>
                 <EnterLog data={this.state}/>
@@ -84,7 +84,7 @@ class App extends Component {
                 <NavBar data={this.state} handleLoginStateChange={ this.handleLoginStateChange } />
                 <Container maxWidth="lg">
                     <Divider />
-                    <RemoteData data={this.state} />
+                    <RemoteData beToken={this.state.beToken}/>
                     { addLog }
                 </Container>
             </div>

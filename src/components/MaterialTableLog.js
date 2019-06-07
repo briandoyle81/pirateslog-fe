@@ -17,24 +17,25 @@ const SHOW_ALL_ENDPOINT = "/api/entries/";
 const SHOW_MY_ENDPOINT = "/api/my_entries/";
 
 function RemoteData(props) {
+    console.log("props at top of RemoteData are: ", props)
     // const [isAuthenticated, setIsAuthenticated] = useState(props.data.isAuthenticated);
     // const [googleUser, setGoogleUser] = useState(props.data.googleUser);
     // const [googleToken, setGoogleToken] = useState(props.data.googleUser);
     // const [beToken, setBeToken] = useState(props.data.beToken);
     const [state, setState] = React.useState({
-        beToken: props.data.beToken,
+        beToken: props.beToken,
         showOnlyUserEntries: false,
         getEndpoint: SHOW_ALL_ENDPOINT,
         label: "Show All Log Entries",
     })
 
     useEffect(() => {
-        console.log("using effect, token prop is: ", props.data.beToken);
+        console.log("using effect, props are: ", props);
     })
 
     const handleSwitch = name => event => {
         // This is being clever and using one for all switches
-        // Not sure if it is necessary
+        // Not sure if it is necessary or wise
         setState({...state, [name]: event.target.checked });
         if(name === 'showOnlyUserEntries') {
             console.log('changed showOnlyUserEntries', state.showOnlyUserEntries);
@@ -65,35 +66,34 @@ function RemoteData(props) {
                     </Avatar>)
         }
     }
-        const tableHeader = state.beToken != null ? 
-        (
-            {//TODO: Inline style
-                Toolbar: props => (
-                    <div style={ {padding: '10px 10px'} }>
-                            <FormGroup row>
-                                <FormControlLabel
-                                    control={
-                                        <Switch 
-                                            checked={ state.showOnlyUserEntries }
-                                            onChange={ handleSwitch('showOnlyUserEntries') }
-                                            value="showOnlyUserEntries"
-                                            inputProps={{ 'aria-label': 'primary checkbox'} }
-                                        />
-                                    }
-                                    label="Show All Logs"
-                                />
-                            </FormGroup>
-                    </div>
-                )
-            }
-        ):
-        (
-            { Toolbar: props => ( <div></div> ) } // Override toolbar with empty div
-        )
+    const tableHeader = props.beToken != null ? 
+    (
+        
+                <div style={ {padding: '10px 10px'} }>
+                        <FormGroup row>
+                            <FormControlLabel
+                                control={
+                                    <Switch 
+                                        checked={ state.showOnlyUserEntries }
+                                        onChange={ handleSwitch('showOnlyUserEntries') }
+                                        value="showOnlyUserEntries"
+                                        inputProps={{ 'aria-label': 'primary checkbox'} }
+                                    />
+                                }
+                                label="Show All Logs"
+                            />
+                        </FormGroup>
+                </div>
+           
+    ):
+    (
+       <div></div> // Override toolbar with empty div
+    )
 
-        return (
+    return (
+    <div>
         <MaterialTable
-            title="Pirate's Log"
+            title={props.beToken}
             columns={[
             {
                 title: 'Date',
@@ -163,36 +163,38 @@ function RemoteData(props) {
             },
         ]}
         data={query => //TODO: Deal with pagination AND cache this
-           new Promise((resolve, reject) => {
+            new Promise((resolve, reject) => {
                 let url = BE_SERVER + SHOW_ALL_ENDPOINT;
                 let config = {}
-                console.log(props.data.beToken)
-                if(props.data.beToken != null) {
+                console.log(props.beToken)
+                if(props.beToken != null) {
                     url = BE_SERVER + SHOW_MY_ENDPOINT;
                     config = {
                         headers: {
-                            'Authorization': 'Token  ' + props.data.beToken
+                            'Authorization': 'Token  ' + props.beToken
                         }
                     }
                 }
                 url += '?limit=' + query.pageSize;
                 url += '&offset=' + query.page;
-             axios.get(url, config)
-               .then(result => {
-                   console.log(result)
-                   resolve({
-                       data: result.data.results,
-                       page: query.page,
-                       totalCount: result.data.count,
-                   })
-               })
-               .catch((error) => {
-                   console.log(error);
-               })
-           })
-         }
+                axios.get(url, config)
+                .then(result => {
+                    console.log(result)
+                    resolve({
+                        data: result.data.results,
+                        page: query.page,
+                        totalCount: result.data.count,
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            })}
+            components={{//TODO: Inline style
+            Toolbar: props => ( tableHeader )
+            }}
         />
-    )
-  }
+    </div>
+)}
 
 export default RemoteData;
