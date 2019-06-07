@@ -22,8 +22,9 @@ function RemoteData(props) {
     // const [googleToken, setGoogleToken] = useState(props.data.googleUser);
     // const [beToken, setBeToken] = useState(props.data.beToken);
     const [state, setState] = React.useState({
-        showOnlyUserEntries: false,
+        showOnlyUserEntries: true, // Set to true here by default.  Lack of token will prevent error below
     })
+    
     const tableRef = React.createRef();
 
     useEffect(() => {
@@ -40,11 +41,9 @@ function RemoteData(props) {
     const handleSwitch = name => event => {
         // This is being clever and using one for all switches
         // Not sure if it is necessary or wise
-        setState({...state, [name]: event.target.checked });
-        if(name === 'showOnlyUserEntries') {
-            console.log('changed showOnlyUserEntries', state.showOnlyUserEntries);
-        }
+        setState({...state, showOnlyUserEntries: event.target.checked });
         console.log("state in handleSwitch: ", state)
+        tableRef.current.onQueryChange() //TODO:  Figure out why this works
     }
 
     function getShipIcon(shipType) {
@@ -84,7 +83,7 @@ function RemoteData(props) {
                                 inputProps={{ 'aria-label': 'primary checkbox'} }
                             />
                         }
-                        label="Show All Logs"
+                        label="Show My Logs"
                     />
                 </FormGroup>
         </div>
@@ -170,7 +169,7 @@ function RemoteData(props) {
             new Promise((resolve, reject) => {
                 let url = BE_SERVER + SHOW_ALL_ENDPOINT;
                 let config = {}
-                if(props.beToken != null) {
+                if(state.showOnlyUserEntries && props.beToken != null) {
                     url = BE_SERVER + SHOW_MY_ENDPOINT;
                     config = {
                         headers: {
