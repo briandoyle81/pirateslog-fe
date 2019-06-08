@@ -235,21 +235,15 @@ function GetIslandSelection(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [single, setSingle] = React.useState(null);
-  const [multi, setMulti] = React.useState(null);
-  
+
     const suggestions = props.data.islands.map(suggestion => ({
         value: suggestion.id,
         label: suggestion.name
     }))
-    console.log(props.data.islands)
-    console.log(suggestions)
 
   function handleChangeSingle(value) {
     setSingle(value);
-  }
-
-  function handleChangeMulti(value) {
-    setMulti(value);
+    props.handleIslandSelect(value);
   }
 
   const selectStyles = {

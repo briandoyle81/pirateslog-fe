@@ -55,7 +55,7 @@ function EnterLog(props) {
     enemyShip: 'U',
     treasure: 'U',
     tears: 'U',
-    location: 'At Sea',
+    island: {},
     crew: {},
     myShip: 'U',
   });
@@ -66,6 +66,11 @@ function EnterLog(props) {
       [event.target.name]: event.target.value,
     }));
     console.log(values);
+  }
+
+  function handleIslandSelect(island) {
+    let newValues = values;
+    newValues.island = island;
   }
 
   function handleClickOpen() {
@@ -208,7 +213,7 @@ function EnterLog(props) {
               </Select>
             </FormControl>
           </form>
-          <GetIslandSelection data={props.data}/>
+          <GetIslandSelection data={props.data} handleIslandSelect={handleIslandSelect}/>
           <TextField
             margin="dense"
             id="name"
