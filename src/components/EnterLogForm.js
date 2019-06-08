@@ -1,5 +1,6 @@
 import 'date-fns';
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -7,17 +8,65 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DateFnsUtils from '@date-io/date-fns'
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import FilledInput from '@material-ui/core/FilledInput';
+
+import Avatar from '@material-ui/core/Avatar';
+import {
+    SloopAvatar,
+    BrigAvatar,
+    GalleonAvatar,
+  } from './ImageAvatars'
+import ImageIcon from '@material-ui/icons/Image';
 
 import {
   KeyboardTimePicker,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
+} from '@material-ui/pickers'
+
+import GetIslandSelection from './GetIslandSelection'
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 function EnterLog(props) {
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
   
+  const [values, setValues] = React.useState({
+    enemyShip: 'U',
+    treasure: 'U',
+    tears: 'U',
+    location: 'At Sea',
+    crew: {},
+    myShip: 'U',
+  });
+
+  function handleChange(event) {
+    setValues(oldValues => ({
+      ...oldValues,
+      [event.target.name]: event.target.value,
+    }));
+    console.log(values);
+  }
 
   function handleClickOpen() {
     setOpen(true);
@@ -61,12 +110,109 @@ function EnterLog(props) {
               'aria-label': 'change time',
             }}
           />
+          <form className={classes.root} autoComplete="off">
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="enemy-ship">Enemy Ship</InputLabel>
+              <Select
+                value={values.enemyShip}
+                onChange={handleChange}
+                inputProps={{
+                  name: 'enemyShip',
+                  id: 'enemy-ship',
+                }}
+              >
+                <MenuItem value={'U'}>
+                  <Avatar>
+                    ?
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'S'}>
+                  <Avatar>
+                    <SloopAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'B'}>
+                  <Avatar>
+                    <BrigAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'G'}>
+                  <Avatar>
+                    <GalleonAvatar />
+                  </Avatar>
+                </MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="treasure">Treasure</InputLabel>
+              <Select
+                value={values.treasure}
+                onChange={handleChange}
+                inputProps={{
+                  name: 'treasure',
+                  id: 'treasure',
+                }}
+              >
+                <MenuItem value={'U'}>
+                  <Avatar>
+                    ?
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'N'}>
+                  <Avatar>
+                    N 
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'L'}>
+                  <Avatar>
+                    L
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'H'}>
+                  <Avatar>
+                    H
+                  </Avatar>
+                </MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="tears">Tears</InputLabel>
+              <Select
+                value={values.tears}
+                onChange={handleChange}
+                inputProps={{
+                  name: 'tears',
+                  id: 'tears',
+                }}
+              >
+                <MenuItem value={'U'}>
+                  <Avatar>
+                    ?
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'N'}>
+                  <Avatar>
+                    N 
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'L'}>
+                  <Avatar>
+                    L
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'H'}>
+                  <Avatar>
+                    H
+                  </Avatar>
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </form>
+          <GetIslandSelection data={props.data}/>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
-            type="email"
+            label="Notes"
             fullWidth
           />
         </DialogContent>
@@ -75,7 +221,7 @@ function EnterLog(props) {
             Cancel
           </Button>
           <Button onClick={handleClose} color="primary">
-            Subscribe
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
