@@ -31,6 +31,7 @@ import {
 } from '@material-ui/pickers'
 
 import GetIslandSelection from './GetIslandSelection'
+import GetCrewSelection from './GetCrewSelection'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -71,6 +72,11 @@ function EnterLog(props) {
   function handleIslandSelect(island) {
     let newValues = values;
     newValues.island = island;
+  }
+
+  function handleCrewSelect(crew) {
+    let newValues = values;
+    newValues.island = crew;
   }
 
   function handleClickOpen() {
@@ -212,7 +218,40 @@ function EnterLog(props) {
                 </MenuItem>
               </Select>
             </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="enemy-ship">My Ship</InputLabel>
+              <Select
+                value={values.myShip}
+                onChange={handleChange}
+                inputProps={{
+                  name: 'myShip',
+                  id: 'my-ship',
+                }}
+              >
+                <MenuItem value={'U'}>
+                  <Avatar>
+                    ?
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'S'}>
+                  <Avatar>
+                    <SloopAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'B'}>
+                  <Avatar>
+                    <BrigAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'G'}>
+                  <Avatar>
+                    <GalleonAvatar />
+                  </Avatar>
+                </MenuItem>
+              </Select>
+            </FormControl>
           </form>
+          <GetCrewSelection data={props.data} handleCrewSelect={handleCrewSelect}/>
           <GetIslandSelection data={props.data} handleIslandSelect={handleIslandSelect}/>
           <TextField
             margin="dense"

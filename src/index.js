@@ -37,9 +37,24 @@ class App extends Component {
             userProfile: null,
             beToken: null,
             islands: null,
+            profiles: null,
         };
 
         this.getIslands(); // Get and cache the list of islands
+        this.getProfiles(); //TODO: This will be a problem with more users
+    }
+
+    getProfiles = () => {
+        axios.get(BE_SERVER + '/api/profiles/') 
+            .then((response) => {
+                console.log('profiles', response)
+                let newState = this.state;
+                newState.profiles = response.data;
+                this.setState(newState);
+            })
+            .catch((error) => {
+                console.log(error);
+        })
     }
 
     getIslands = () => {
