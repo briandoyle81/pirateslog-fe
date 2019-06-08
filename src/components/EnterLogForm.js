@@ -66,9 +66,10 @@ function EnterLog(props) {
   });
 
   function handleSubmit() {
+    console.log("props in submit: ", props)
     let config = {
       headers: {
-          'Authorization': 'Token  ' + this.state.beToken
+          'Authorization': 'Token  ' + props.data.beToken
       }
     }
     let body = values;
@@ -80,6 +81,7 @@ function EnterLog(props) {
             .catch((error) => {
                 console.log(error);
             })
+    handleClose();
   }
 
   function handleChange(event) {
