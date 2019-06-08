@@ -68,7 +68,6 @@ class App extends Component {
 
                     // Use the django beToken to get the user profile
                     // TODO: Should be able to return both from first call
-                    console.log("be response to auth: ", response)
                     let config = {
                         headers: {
                             'Authorization': 'Token  ' + response.data.token
@@ -76,11 +75,9 @@ class App extends Component {
                     }
                     axios.get(BE_SERVER + "/api/my_profile/", config)
                     .then((response => {
-                        console.log("My Profile: ", response);
                         let newState = this.state;
                         newState.userProfile = response.data[0];
                         this.setState(newState);
-                        console.log("state after getting profile: ", this.state)
                     }))
                     .catch((error) => {
                         console.log("Error getting profile", error);
@@ -113,7 +110,6 @@ class App extends Component {
         console.log(config);
         axios.post(BE_SERVER + "/update_gamertag/", body, config) 
                 .then((response) => {
-                    console.log(response);
                     // TODO: Response should be whole profile
                     let newState = this.state;
                     newState.userProfile.gamertag = response.data;
