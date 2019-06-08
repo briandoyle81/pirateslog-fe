@@ -33,6 +33,10 @@ import {
 import GetIslandSelection from './GetIslandSelection'
 import GetCrewSelection from './GetCrewSelection'
 
+const axios = require('axios');
+
+const BE_SERVER = process.env.REACT_APP_BE_SERVER;
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -60,6 +64,23 @@ function EnterLog(props) {
     crew: {},
     myShip: 'U',
   });
+
+  function handleSubmit() {
+    let config = {
+      headers: {
+          'Authorization': 'Token  ' + this.state.beToken
+      }
+    }
+    let body = values;
+    console.log(config);
+    axios.post(BE_SERVER + "/create_log/", body, config) 
+            .then((response) => {
+                console.log("added new log")
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+  }
 
   function handleChange(event) {
     setValues(oldValues => ({
@@ -264,7 +285,7 @@ function EnterLog(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleSubmit} color="primary">
             Submit
           </Button>
         </DialogActions>
