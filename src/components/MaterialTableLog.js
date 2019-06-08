@@ -179,6 +179,7 @@ function RemoteData(props) {
                 }
                 url += '?limit=' + query.pageSize;
                 url += '&offset=' + query.page;
+                console.log("config at getting the list: ", config)
                 axios.get(url, config)
                 .then(result => {
                     resolve({

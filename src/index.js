@@ -80,6 +80,7 @@ class App extends Component {
                         let newState = this.state;
                         newState.userProfile = response.data[0];
                         this.setState(newState);
+                        console.log("state after getting profile: ", this.state)
                     }))
                     .catch((error) => {
                         console.log("Error getting profile", error);
@@ -101,7 +102,26 @@ class App extends Component {
     }
 
     handleGamertagChange = (newName) => {
-        console.log("changing name to ", newName);
+        let config = {
+            headers: {
+                'Authorization': 'Token  ' + this.state.beToken
+            }
+        }
+        let body = {
+            name: newName
+        }
+        console.log(config);
+        axios.post(BE_SERVER + "/update_gamertag/", body, config) 
+                .then((response) => {
+                    console.log(response);
+                    // TODO: Response should be whole profile
+                    let newState = this.state;
+                    newState.userProfile.gamertag = response.data;
+                    this.setState(newState);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
     }
 
     render () {
