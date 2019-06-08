@@ -17,6 +17,9 @@ import RemoteData from './components/MaterialTableLog'
 import EnterLog from './components/EnterLogForm'
 import GetGamertag from './components/GetGamerTag';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 // Axios and Django
 const axios = require('axios');
 const DEBUG_TOKEN = process.env.REACT_APP_DEBUG_TOKEN;
@@ -134,14 +137,16 @@ class App extends Component {
         );
 
         return (
-            <div className="app">
-                <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange} />
-                <Container maxWidth="lg">
-                    <Divider />
-                    <RemoteData beToken={this.state.beToken}/>
-                    { addLog }
-                </Container>
-            </div>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <div className="app">
+                    <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange} />
+                    <Container maxWidth="lg">
+                        <Divider />
+                        <RemoteData beToken={this.state.beToken}/>
+                        { addLog }
+                    </Container>
+                </div>
+            </MuiPickersUtilsProvider>
         )
 }
 

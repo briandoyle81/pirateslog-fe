@@ -6,7 +6,11 @@ import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
 import Avatar from '@material-ui/core/Avatar';
-import SloopAvatar from './ImageAvatars'
+import {
+    SloopAvatar,
+    BrigAvatar,
+    GalleonAvatar,
+  } from './ImageAvatars'
 import ImageIcon from '@material-ui/icons/Image';
 
 const axios = require('axios');
@@ -58,11 +62,11 @@ function RemoteData(props) {
                     </Avatar>)
             case 'B':
                 return(<Avatar>
-                        <ImageIcon />
+                        <BrigAvatar />
                     </Avatar>)
             case 'G':
                 return(<Avatar>
-                        <ImageIcon />
+                        <GalleonAvatar />
                     </Avatar>)
             default:
                 return(<Avatar>
