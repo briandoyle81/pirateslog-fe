@@ -68,6 +68,9 @@ class App extends Component {
                 console.log(error);
         })
     }
+    handleNewLogEntered = () => {
+        this.forceUpdate(); //TODO: Find better solution
+    }
                                 //TODO: rename loginState to google token
     handleLoginStateChange = (token) => {
         // If we're authed in the fe from google, get auth token from Django
@@ -142,7 +145,7 @@ class App extends Component {
         let addLog = this.state.isAuthenticated ? 
         (
             <div>
-                <EnterLog data={this.state}/>
+                <EnterLog data={this.state} handleNewLogEntered={this.handleNewLogEntered}/>
                 <div>Debug Controls</div>
                 <GetGamertag data={this.state} handleGamertagChange={this.handleGamertagChange}/>
             </div>

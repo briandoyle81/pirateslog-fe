@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 function EnterLog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  // const [selectedDate, setSelectedDate] = React.useState(new Date());
   
   const [values, setValues] = React.useState({
     enemyShip: 'U',
@@ -63,6 +63,7 @@ function EnterLog(props) {
     island: {},
     crew: {},
     myShip: 'U',
+    dateTime: new Date()
   });
 
   function handleSubmit() {
@@ -77,6 +78,7 @@ function EnterLog(props) {
     axios.post(BE_SERVER + "/create_log/", body, config) 
             .then((response) => {
                 console.log("added new log")
+                props.handleNewLogEntered();
             })
             .catch((error) => {
                 console.log(error);
@@ -95,11 +97,13 @@ function EnterLog(props) {
   function handleIslandSelect(island) {
     let newValues = values;
     newValues.island = island;
+    setValues(newValues);
   }
 
   function handleCrewSelect(crew) {
     let newValues = values;
-    newValues.island = crew;
+    newValues.crew = crew;
+    setValues(newValues);
   }
 
   function handleClickOpen() {
@@ -111,7 +115,9 @@ function EnterLog(props) {
   }
 
   function handleDateChange(date) {
-    setSelectedDate(date);
+    let newValues = values;
+    newValues.dateTime = date;
+    setValues(newValues);
   }
 
   return (
@@ -128,7 +134,7 @@ function EnterLog(props) {
             margin="normal"
             id="mui-pickers-date"
             label="Date picker"
-            value={selectedDate}
+            value={values.dateTime}
             onChange={handleDateChange}
             KeyboardButtonProps={{
               'aria-label': 'change date',
@@ -138,7 +144,7 @@ function EnterLog(props) {
             margin="normal"
             id="mui-pickers-time"
             label="Time picker"
-            value={selectedDate}
+            value={values.dateTime}
             onChange={handleDateChange}
             KeyboardButtonProps={{
               'aria-label': 'change time',
