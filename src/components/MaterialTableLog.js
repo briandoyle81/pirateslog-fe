@@ -50,6 +50,56 @@ function RemoteData(props) {
         tableRef.current.onQueryChange() //TODO:  Figure out why this works
     }
 
+    function getTreasureIcon(treasure) {
+        switch(treasure) {
+            case 'U':
+                return(<Avatar>
+                        ?
+                    </Avatar>)
+            case 'N':
+                return(<Avatar>
+                        N
+                    </Avatar>)
+            case 'L':
+                return(<Avatar>
+                        L
+                    </Avatar>)
+            case 'H':
+                return(<Avatar>
+                        H
+                    </Avatar>)
+            default:
+                return(<Avatar>
+                        ?
+                    </Avatar>)
+        }
+    }
+
+    function getTearsIcon(tears) {
+        switch(tears) {
+            case 'U':
+                return(<Avatar>
+                        ?
+                    </Avatar>)
+            case 'N':
+                return(<Avatar>
+                        N
+                    </Avatar>)
+            case 'L':
+                return(<Avatar>
+                        L
+                    </Avatar>)
+            case 'H':
+                return(<Avatar>
+                        H
+                    </Avatar>)
+            default:
+                return(<Avatar>
+                        ?
+                    </Avatar>)
+        }
+    }
+
     function getShipIcon(shipType) {
         switch(shipType) {
             case 'U':
@@ -127,18 +177,14 @@ function RemoteData(props) {
                 title: 'Treasure',
                 field: 'avatar',
                 render: rowData => (
-                    <Avatar>
-                        <ImageIcon />
-                    </Avatar>
+                            getTreasureIcon(rowData.treasure)
                 ),
             },
             {
                 title: 'Tears',
                 field: 'avatar',
                 render: rowData => (
-                    <Avatar>
-                        <ImageIcon />
-                    </Avatar>
+                            getTearsIcon(rowData.tears)
                 ),
             },
             { 
