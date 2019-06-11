@@ -8,11 +8,14 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 function GetGamertag(props) {
+  console.log(props.data)
   const [open, setOpen] = useState(false);
   const [enteredTag, setEnteredTag] = useState("");
+  const [registeredTag, setRegisteredTag] = useState("");
   
   function handleClickOpen() {
     setOpen(true);
+    setRegisteredTag(props.data.userProfile != null ? props.data.userProfile.gamertag : "")
   }
 
   function handleClose() {
@@ -28,6 +31,15 @@ function GetGamertag(props) {
     setEnteredTag(event.target.value);
   };
 
+  let tagEntered = (registeredTag === '') ? (
+    <div></div>
+  ):
+  (
+    <div>
+      {"Your currently claimed tag is " + registeredTag + ".  Please enter the validation code from your Xbox Live Messages."}
+    </div>
+  )
+
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -36,6 +48,7 @@ function GetGamertag(props) {
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">What is your Gamertag?</DialogTitle>
         <DialogContent>
+          {tagEntered}
           <TextField
             autoFocus
             margin="dense"

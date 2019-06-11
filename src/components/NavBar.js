@@ -8,8 +8,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { GoogleLogin } from 'react-google-login';
+import MicrosoftLogin from "react-microsoft-login";
 
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const MICROSOFT_CLIENT_ID = process.env.REACT_APP_MICROSOFT_CLIENT_ID
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,26 +42,43 @@ function NavBar(props) {
       alert("Google Auth Failure");
     }
 
+    const microsoftAuthHandler = (err, data) => {
+      // console.log(err, data)
+      data.access_token = data.accessToken
+      console.log(data)
+      props.handleLoginStateChange(data, "azure");
+      setToken(data);
+      console.log(JSON.stringify(data));
+    }
+
     const googleResponse = (response) => {
+      console.log(response);
       props.handleLoginStateChange(
-        response.tokenObj );
+        response.tokenObj, "google");
 
       setToken(response.tokenObj);
 
       // console.log(JSON.stringify(response.tokenObj));
     }
     
+    // {/* <div>
+    //       <MicrosoftLogin
+    //       clientId={MICROSOFT_CLIENT_ID}
+    //       authCallback={microsoftAuthHandler}
+    //       /> */}
     let loginButton = token != null ? 
       (
         <Button onClick={ logout } color="inherit">Logout</Button>
       ):
       (
-        <GoogleLogin
-          clientId={ GOOGLE_CLIENT_ID }
-          buttonText="Login"
-          onSuccess={googleResponse}
-          onFailure={onFailure}
-        />
+        <div>
+          <GoogleLogin
+            clientId={GOOGLE_CLIENT_ID}
+            buttonText="Login"
+            onSuccess={googleResponse}
+            onFailure={onFailure}
+          />
+        </div>
       );
 
     return (

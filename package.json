@@ -16,6 +16,7 @@
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.0.4",
+    "react-microsoft-login": "^1.2.0",
     "react-scripts": "3.0.1",
     "react-select": "^3.0.4",
     "react-twitter-auth": "0.0.13"

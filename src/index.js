@@ -38,6 +38,7 @@ class App extends Component {
             beToken: null,
             islands: null,
             profiles: null,
+            verified: false
         };
 
         this.getIslands(); // Get and cache the list of islands
@@ -72,10 +73,10 @@ class App extends Component {
         this.forceUpdate(); //TODO: Find better solution
     }
                                 //TODO: rename loginState to google token
-    handleLoginStateChange = (token) => {
+    handleLoginStateChange = (token, provider) => {
         // If we're authed in the fe from google, get auth token from Django
         if(token != null) {
-            let beServerAuthURL = BE_SERVER + "/social/google-oauth2/"; // TODO:  Make dynamic
+            let beServerAuthURL = BE_SERVER + "/social/" + provider + "-oauth2/"; // TODO:  Make dynamic
            
             axios.post(beServerAuthURL, token) 
                 .then((response) => {
@@ -84,7 +85,7 @@ class App extends Component {
                     newState.isAuthenticated = true; 
                     newState.user = "TODO"; 
                     newState.token = token; // TODO: This is now token object. Rename or refactor
-                    newState.beToken = response.data.token;
+                    newState.beToken = response.data.token;  // The Django Token
                     this.setState(newState);
 
                     // Use the django beToken to get the user profile
@@ -98,6 +99,7 @@ class App extends Component {
                     .then((response => {
                         let newState = this.state;
                         newState.userProfile = response.data[0];
+                        newState.verified = newState.userProfile.verified;
                         this.setState(newState);
                     }))
                     .catch((error) => {
