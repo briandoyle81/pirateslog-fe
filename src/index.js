@@ -38,6 +38,7 @@ class App extends Component {
             beToken: null,
             islands: null,
             profiles: null,
+            verified: false, // TODO: This is in profiles
         };
 
         this.getIslands(); // Get and cache the list of islands
@@ -98,6 +99,7 @@ class App extends Component {
                     .then((response => {
                         let newState = this.state;
                         newState.userProfile = response.data[0];
+                        newState.verified = newState.userProfile.verified;
                         this.setState(newState);
                     }))
                     .catch((error) => {
@@ -152,13 +154,13 @@ class App extends Component {
         axios.post(BE_SERVER + "/verify_gamertag/", body, config) 
                 .then((response) => {
                     // TODO: Response should be whole profile
-                    console.log(response);
                     let newState = this.state;
                     let bool = false;
                     if (response.data === 'true') {
                         bool = true;
                     }
                     newState.userProfile.verified = bool;
+                    newState.verified = bool;
                     this.setState(newState);
                 })
                 .catch((error) => {
@@ -167,12 +169,18 @@ class App extends Component {
     }
 
     render () {
+        let verifyTag = this.state.verified ?
+        (
+            <div></div>
+        ):
+        (
+            <GetGamertag data={this.state} handleGamertagChange={this.handleGamertagChange} handleGamertagVerify={this.handleGamertagVerify}/>
+        )
         let addLog = this.state.isAuthenticated ? 
         (
             <div>
                 <EnterLog data={this.state} handleNewLogEntered={this.handleNewLogEntered}/>
-                <div>Debug Controls</div>
-                <GetGamertag data={this.state} handleGamertagChange={this.handleGamertagChange} handleGamertagVerify={this.handleGamertagVerify}/>
+                { verifyTag }
             </div>
         ):
         (

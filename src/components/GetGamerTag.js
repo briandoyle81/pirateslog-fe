@@ -12,8 +12,16 @@ function GetGamertag(props) {
   const [enteredTag, setEnteredTag] = useState("");
   const [enteredCode, setEnteredCode] = useState("");
   const [registeredTag, setRegisteredTag] = useState("");
-  const [verified, setVerified] = useState(false);
-  
+  const [verified, setVerified] = useState(true); // Start as true to avoid render
+                                                  // Won't be needed when profile is returned with login
+  useEffect(() => {
+    console.log("effect in getGamerTag")
+    if(props.data.userProfile != null) {
+      setRegisteredTag(props.data.userProfile != null ? props.data.userProfile.gamertag : "")
+      setVerified(props.data.userProfile.verified != null ? props.data.userProfile.verified : false)
+    }
+  }, [props.data])
+
   function handleClickOpen() {
     setOpen(true);
     setRegisteredTag(props.data.userProfile != null ? props.data.userProfile.gamertag : "")
@@ -31,8 +39,8 @@ function GetGamertag(props) {
     }
     if(enteredCode !== "") {
       props.handleGamertagVerify(enteredCode);
+      handleClose();
     }
-    handleClose();
   }
 
   const handleInput = event => {
@@ -60,7 +68,7 @@ function GetGamertag(props) {
 
   let tagKnownButNotverified = (registeredTag !== '' && !verified) ? (
     <div>
-    {"Your currently claimed tag is " + registeredTag + ".  Please enter the verification code from your Xbox Live Messages."}
+    {"Your currently claimed tag is " + registeredTag + ".  Please enter the verification code from your Xbox Live Messages.  It may take a few minutes for the message to arrive."}
       <TextField
             autoFocus
             margin="dense"
@@ -102,7 +110,7 @@ function GetGamertag(props) {
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Change Gamertag
+        Verify Gamertag
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">What is your Gamertag?</DialogTitle>
