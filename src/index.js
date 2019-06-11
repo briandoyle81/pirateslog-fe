@@ -132,6 +132,7 @@ class App extends Component {
         }
         axios.post(BE_SERVER + "/update_gamertag/", body, config) 
                 .then((response) => {
+                    console.log(response);
                     // TODO: Response should be whole profile
                     let newState = this.state;
                     newState.userProfile.gamertag = response.data;
