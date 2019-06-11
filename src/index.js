@@ -38,7 +38,6 @@ class App extends Component {
             beToken: null,
             islands: null,
             profiles: null,
-            verified: false
         };
 
         this.getIslands(); // Get and cache the list of islands
@@ -48,7 +47,6 @@ class App extends Component {
     getProfiles = () => {
         axios.get(BE_SERVER + '/api/profiles/') 
             .then((response) => {
-                console.log('profiles', response)
                 let newState = this.state;
                 newState.profiles = response.data;
                 this.setState(newState);
@@ -69,6 +67,7 @@ class App extends Component {
                 console.log(error);
         })
     }
+
     handleNewLogEntered = () => {
         this.forceUpdate(); //TODO: Find better solution
     }
@@ -99,7 +98,6 @@ class App extends Component {
                     .then((response => {
                         let newState = this.state;
                         newState.userProfile = response.data[0];
-                        newState.verified = newState.userProfile.verified;
                         this.setState(newState);
                     }))
                     .catch((error) => {
@@ -130,12 +128,37 @@ class App extends Component {
         let body = {
             name: newName
         }
-        console.log(config);
         axios.post(BE_SERVER + "/update_gamertag/", body, config) 
                 .then((response) => {
                     // TODO: Response should be whole profile
                     let newState = this.state;
                     newState.userProfile.gamertag = response.data;
+                    this.setState(newState);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+    }
+
+    handleGamertagVerify = (code) => {
+        let config = {
+            headers: {
+                'Authorization': 'Token  ' + this.state.beToken
+            }
+        }
+        let body = {
+            code: code
+        }
+        axios.post(BE_SERVER + "/verify_gamertag/", body, config) 
+                .then((response) => {
+                    // TODO: Response should be whole profile
+                    console.log(response);
+                    let newState = this.state;
+                    let bool = false;
+                    if (response.data === 'true') {
+                        bool = true;
+                    }
+                    newState.userProfile.verified = bool;
                     this.setState(newState);
                 })
                 .catch((error) => {
@@ -149,7 +172,7 @@ class App extends Component {
             <div>
                 <EnterLog data={this.state} handleNewLogEntered={this.handleNewLogEntered}/>
                 <div>Debug Controls</div>
-                <GetGamertag data={this.state} handleGamertagChange={this.handleGamertagChange}/>
+                <GetGamertag data={this.state} handleGamertagChange={this.handleGamertagChange} handleGamertagVerify={this.handleGamertagVerify}/>
             </div>
         ):
         (
@@ -159,7 +182,7 @@ class App extends Component {
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <div className="app">
-                    <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange} />
+                    <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange}/>
                     <Container maxWidth="lg">
                         <Divider />
                         <RemoteData beToken={this.state.beToken}/>

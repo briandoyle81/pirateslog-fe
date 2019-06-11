@@ -8,14 +8,16 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 function GetGamertag(props) {
-  console.log(props.data)
   const [open, setOpen] = useState(false);
   const [enteredTag, setEnteredTag] = useState("");
+  const [enteredCode, setEnteredCode] = useState("");
   const [registeredTag, setRegisteredTag] = useState("");
+  const [verified, setVerified] = useState(false);
   
   function handleClickOpen() {
     setOpen(true);
     setRegisteredTag(props.data.userProfile != null ? props.data.userProfile.gamertag : "")
+    setVerified(props.data.userProfile.verified != null ? props.data.userProfile.verified : false)
   }
 
   function handleClose() {
@@ -23,7 +25,13 @@ function GetGamertag(props) {
   }
 
   function handleUpdate() {
-    props.handleGamertagChange(enteredTag);
+    // TODO: Validation
+    if(enteredTag !== "") {
+      props.handleGamertagChange(enteredTag);
+    }
+    if(enteredCode !== "") {
+      props.handleGamertagVerify(enteredCode);
+    }
     handleClose();
   }
 
@@ -31,12 +39,63 @@ function GetGamertag(props) {
     setEnteredTag(event.target.value);
   };
 
-  let tagEntered = (registeredTag === '') ? (
+  const handleCodeInput = event => {
+    setEnteredCode(event.target.value);
+  };
+
+  let tagUnknown = registeredTag === '' ? (
+    <TextField
+            autoFocus
+            margin="dense"
+            id="gamertag"
+            label="Gamertag"
+            type="text"
+            fullWidth
+            onChange={handleInput}
+          />
+  ):
+  (
     <div></div>
+  )
+
+  let tagKnownButNotverified = (registeredTag !== '' && !verified) ? (
+    <div>
+    {"Your currently claimed tag is " + registeredTag + ".  Please enter the verification code from your Xbox Live Messages."}
+      <TextField
+            autoFocus
+            margin="dense"
+            id="validationCode"
+            label="Validation Code"
+            type="text"
+            fullWidth
+            onChange={handleCodeInput}
+          />
+    </div>
+  ):
+  (
+    <div></div>
+  )
+
+  let verifiedTag = verified ? (
+    <div>Your Gamertag has been verified.  No further action needed.</div>
+  ):
+  (
+    <div></div>
+  )
+
+  let buttons = verified ? (
+    <Button onClick={handleClose} color="primary">
+      Ok
+    </Button>
   ):
   (
     <div>
-      {"Your currently claimed tag is " + registeredTag + ".  Please enter the validation code from your Xbox Live Messages."}
+      <Button onClick={handleClose} color="primary">
+        Cancel
+      </Button>
+      <Button onClick={handleUpdate} color="primary">
+        Update
+      </Button>
     </div>
   )
 
@@ -46,26 +105,14 @@ function GetGamertag(props) {
         Change Gamertag
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">What is your Gamertag?</DialogTitle>
+      <DialogTitle id="form-dialog-title">What is your Gamertag?</DialogTitle>
         <DialogContent>
-          {tagEntered}
-          <TextField
-            autoFocus
-            margin="dense"
-            id="gamertag"
-            label="Gamertag"
-            type="text"
-            fullWidth
-            onChange={handleInput}
-          />
+          {tagUnknown}
+          {tagKnownButNotverified}
+          {verifiedTag}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleUpdate} color="primary">
-            Update
-          </Button>
+          {buttons}
         </DialogActions>
       </Dialog>
     </div>
