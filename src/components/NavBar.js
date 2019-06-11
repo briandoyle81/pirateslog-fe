@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -28,6 +28,15 @@ const useStyles = makeStyles(theme => ({
 function NavBar(props) {
     const classes = useStyles();
     const [token, setToken] = useState(props.data.token);
+    const [gamertag, setGamertag] = useState("Unknown")
+
+    useEffect(() => {
+      if(props.data.userProfile != null) {
+        if(props.data.userProfile.gamertag !== ""){
+          setGamertag(props.data.userProfile.gamertag)
+        }
+      }
+    }, [props.data.userProfile])
 
     const logout = () => {
       console.log("Logging Out");
@@ -88,7 +97,7 @@ function NavBar(props) {
               <MenuIcon />
             </IconButton> */}
             <Typography variant="h6" className={classes.title}>
-              { props.data.userProfile != null ? props.data.userProfile.gamertag + "'s Log" : "Pirate's Log"}
+              { props.data.userProfile != null ? gamertag + "'s Log" : "Pirate's Log"}
             </Typography>
             { loginButton }
           </Toolbar>

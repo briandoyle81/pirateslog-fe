@@ -116,7 +116,7 @@ class App extends Component {
             newState.user = "null"; 
             newState.token = null; // TODO: This is now token object. Rename or refactor
             newState.beToken = null;
-
+            newState.userProfile = null;
             this.setState(newState);
         }
     }
