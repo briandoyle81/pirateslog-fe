@@ -4,6 +4,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox'
 
 import Avatar from '@material-ui/core/Avatar';
 import {
@@ -21,10 +22,6 @@ const SHOW_ALL_ENDPOINT = "/api/entries/";
 const SHOW_MY_ENDPOINT = "/api/my_entries/";
 
 function RemoteData(props) {
-    // const [isAuthenticated, setIsAuthenticated] = useState(props.data.isAuthenticated);
-    // const [googleUser, setGoogleUser] = useState(props.data.googleUser);
-    // const [googleToken, setGoogleToken] = useState(props.data.googleUser);
-    // const [beToken, setBeToken] = useState(props.data.beToken);
     const [state, setState] = React.useState({
         showOnlyUserEntries: true, // Set to true here by default.  Lack of token will prevent error below
     })
@@ -32,13 +29,8 @@ function RemoteData(props) {
     const tableRef = React.createRef();
 
     useEffect(() => {
-        // console.log("using effect, props are: ", props);
         tableRef.current.onQueryChange() //TODO:  Figure out why this works
-        // console.log("tableref is", tableRef.current)
-        // let tablestate = tableRef.current.state;
-        // tablestate.query.page = 0;
-        // tableRef.current.setState
-        
+       
         // TODO set query.page to zero ^^
     })
 
@@ -167,7 +159,18 @@ function RemoteData(props) {
                 ),
             },
             {
-                title: 'Victim',
+                title: 'Loss',
+                field: 'loss',
+                render: rowData => (
+                    <Checkbox
+                        checked={rowData.loss}
+                        value="rowData_loss"
+                        disabled
+                    />
+                ),
+            },
+            {
+                title: 'Enemy Ship',
                 field: 'avatar',
                 render: rowData => (
                             getShipIcon(rowData.enemyShip)
@@ -252,6 +255,11 @@ function RemoteData(props) {
                     onClick: () => tableRef.current && tableRef.current.onQueryChange(),
                 }
             ]}
+            options={{
+                rowStyle: rowData => ({
+                    backgroundColor: (rowData.loss ? '#FFDDDD' : '#FFF')
+                })
+            }}
         />
     </div>
 )}
