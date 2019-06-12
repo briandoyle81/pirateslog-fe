@@ -80,31 +80,18 @@ class App extends Component {
            
             axios.post(beServerAuthURL, token) 
                 .then((response) => {
+                    console.log(response);
+                    console.log(JSON.parse(response.data.profile))
                     let newState = this.state;
                     
                     newState.isAuthenticated = true; 
                     newState.user = "TODO"; 
                     newState.token = token; // TODO: This is now token object. Rename or refactor
                     newState.beToken = response.data.token;  // The Django Token
+                    newState.userProfile = JSON.parse(response.data.profile);
+                    newState.verified = newState.userProfile.verified;
                     this.setState(newState);
 
-                    // Use the django beToken to get the user profile
-                    // TODO: Should be able to return both from first call
-                    let config = {
-                        headers: {
-                            'Authorization': 'Token  ' + response.data.token
-                        }
-                    }
-                    axios.get(BE_SERVER + "/api/my_profile/", config)
-                    .then((response => {
-                        let newState = this.state;
-                        newState.userProfile = response.data[0];
-                        newState.verified = newState.userProfile.verified;
-                        this.setState(newState);
-                    }))
-                    .catch((error) => {
-                        console.log("Error getting profile", error);
-                    })
                 })
                 .catch((error) => {
                     console.log(error);
