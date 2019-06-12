@@ -166,17 +166,25 @@ class App extends Component {
         (
             <GetGamertag data={this.state} handleGamertagChange={this.handleGamertagChange} handleGamertagVerify={this.handleGamertagVerify}/>
         )
+
+        let enterLogButton = <Typography>Please enter your Gamertag!</Typography>
+        if (this.state.userProfile != null){
+        if (this.state.userProfile.gamertag !== ""){
+            enterLogButton = <EnterLog data={this.state} handleNewLogEntered={this.handleNewLogEntered}/>
+            }
+        }
+
         let addLog = this.state.isAuthenticated ? 
         (
             <div>
-                <EnterLog data={this.state} handleNewLogEntered={this.handleNewLogEntered}/>
+                { enterLogButton }
                 { verifyTag }
             </div>
         ):
         (
-            <Typography variant="h6">Login to Submit!</Typography>
+            <Typography>Login to save a log entry!</Typography>
         );
-
+        
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <div className="app">
