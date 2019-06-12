@@ -48,6 +48,7 @@ class App extends Component {
     getProfiles = () => {
         axios.get(BE_SERVER + '/api/profiles/') 
             .then((response) => {
+                console.log("crew", response)
                 let newState = this.state;
                 newState.profiles = response.data;
                 this.setState(newState);
