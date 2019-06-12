@@ -15,7 +15,6 @@ import {
 import ImageIcon from '@material-ui/icons/Image';
 
 const axios = require('axios');
-const DEBUG_TOKEN = process.env.REACT_APP_DEBUG_TOKEN;
 const BE_SERVER = process.env.REACT_APP_BE_SERVER;
 
 const SHOW_ALL_ENDPOINT = "/api/entries/";
@@ -159,17 +158,6 @@ function RemoteData(props) {
                 ),
             },
             {
-                title: 'Loss',
-                field: 'loss',
-                render: rowData => (
-                    <Checkbox
-                        checked={rowData.loss}
-                        value="rowData_loss"
-                        disabled
-                    />
-                ),
-            },
-            {
                 title: 'Enemy Ship',
                 field: 'avatar',
                 render: rowData => (
@@ -215,6 +203,17 @@ function RemoteData(props) {
                 field: 'avatar',
                 render: rowData => (
                     getShipIcon(rowData.myShip)
+                ),
+            },
+            {
+                title: 'Loss',
+                field: 'loss',
+                render: rowData => (
+                    <Checkbox
+                        checked={rowData.loss}
+                        value="rowData_loss"
+                        disabled
+                    />
                 ),
             },
         ]}
