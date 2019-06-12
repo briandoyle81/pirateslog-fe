@@ -16,6 +16,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FilledInput from '@material-ui/core/FilledInput';
+import Typography from '@material-ui/core/Typography';
 
 import Avatar from '@material-ui/core/Avatar';
 import {
@@ -120,6 +121,12 @@ function EnterLog(props) {
     setValues(newValues);
   }
 
+  let getCrew = props.data.userProfile.verified ? (
+    <GetCrewSelection data={props.data} handleCrewSelect={handleCrewSelect}/>
+  ):
+  (
+    <Typography>You must verify your Gamertag to enter your crew.</Typography>
+  )
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -280,7 +287,7 @@ function EnterLog(props) {
               </Select>
             </FormControl>
           </form>
-          <GetCrewSelection data={props.data} handleCrewSelect={handleCrewSelect}/>
+          {getCrew}
           <GetIslandSelection data={props.data} handleIslandSelect={handleIslandSelect}/>
           <TextField
             margin="dense"
