@@ -131,16 +131,16 @@ class App extends Component {
             name: newName
         }
         axios.post(BE_SERVER + "/update_gamertag/", body, config) 
-                .then((response) => {
-                    console.log(response);
-                    // TODO: Response should be whole profile
-                    let newState = this.state;
-                    newState.userProfile.gamertag = response.data;
-                    this.setState(newState);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+            .then((response) => {
+                console.log(response);
+                // TODO: Response should be whole profile
+                let newState = this.state;
+                newState.userProfile.gamertag = response.data;
+                this.setState(newState);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     handleGamertagVerify = (code) => {
@@ -154,6 +154,7 @@ class App extends Component {
         }
         axios.post(BE_SERVER + "/verify_gamertag/", body, config) 
                 .then((response) => {
+                    console.log(response)
                     // TODO: Response should be whole profile
                     let newState = this.state;
                     let bool = false;

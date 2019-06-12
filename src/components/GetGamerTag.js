@@ -17,8 +17,8 @@ function GetGamertag(props) {
   useEffect(() => {
     console.log("effect in getGamerTag")
     if(props.data.userProfile != null) {
-      setRegisteredTag(props.data.userProfile != null ? props.data.userProfile.gamertag : "")
-      setVerified(props.data.userProfile.verified != null ? props.data.userProfile.verified : false)
+      setRegisteredTag(props.data.userProfile.gamertag)
+      setVerified(props.data.userProfile.verified)
     }
   }, [props.data])
 
