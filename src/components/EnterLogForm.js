@@ -289,12 +289,12 @@ function EnterLog(props) {
           </form>
           {getCrew}
           <GetIslandSelection data={props.data} handleIslandSelect={handleIslandSelect}/>
-          <TextField
+          {/* <TextField
             margin="dense"
             id="name"
             label="Notes"
             fullWidth
-          />
+          /> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

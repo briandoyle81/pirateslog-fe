@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    height: 80,
+    height: 160,
   },
   input: {
     display: 'flex',
