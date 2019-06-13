@@ -156,6 +156,24 @@ function RemoteData(props) {
                   })
     }
 
+    function removeMeFromEntry(id) {
+        let config = {
+            headers: {
+                'Authorization': 'Token  ' + props.beToken
+            }
+          }
+          let body = { id: id };
+          console.log(config);
+          axios.post(BE_SERVER + "/remove_me/", body, config) 
+                  .then((response) => {
+                    //refresh table
+                    tableRef.current.onQueryChange()
+                  })
+                  .catch((error) => {
+                      console.log(error);
+                  })
+    }
+
     return (
     <div>
         <MaterialTable
@@ -277,7 +295,7 @@ function RemoteData(props) {
                 rowData => ({
                     icon: 'edit',
                     tooltip: 'Edit Log',
-                    onClick: () => alert("Edit"),
+                    onClick: () => alert("edit log"),
                     disabled: rowData.added_by !== props.userProfile.gamertag
                 }),
                 rowData => ({
@@ -289,7 +307,7 @@ function RemoteData(props) {
                 rowData => ({
                     icon: 'report_problem',
                     tooltip: 'It wasn\'t me!',
-                    onClick: () => alert("It wasn't me!"),                      // TODO: Doesn't work with ===.  Why?
+                    onClick: () => removeMeFromEntry(rowData.id),                      // TODO: Doesn't work with ===.  Why?
                     disabled: (rowData.crew.filter(e => e === props.userProfile.gamertag) != props.userProfile.gamertag 
                                 || rowData.added_by === props.userProfile.gamertag)
                 })
