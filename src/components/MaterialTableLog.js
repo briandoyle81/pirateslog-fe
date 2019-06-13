@@ -253,13 +253,6 @@ function RemoteData(props) {
                     />
                 ),
             },
-            {
-                title: 'Added By',
-                field: 'added_by',
-                render: rowData => (
-                    rowData.added_by
-                ),
-            },
         ]}
         data={ query => 
             new Promise((resolve, reject) => {
