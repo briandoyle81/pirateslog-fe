@@ -191,7 +191,7 @@ class App extends Component {
                     <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange}/>
                     <Container maxWidth="lg">
                         <Divider />
-                        <RemoteData beToken={this.state.beToken}/>
+                        <RemoteData beToken={this.state.beToken} userProfile={this.state.userProfile}/>
                         { addLog }
                     </Container>
                 </div>

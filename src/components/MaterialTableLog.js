@@ -20,41 +20,18 @@ const BE_SERVER = process.env.REACT_APP_BE_SERVER;
 const SHOW_ALL_ENDPOINT = "/api/entries/";
 const SHOW_MY_ENDPOINT = "/api/my_entries/";
 
-const LOGGED_TABLE_ACTIONS = [
-    {
-        icon: 'edit',
-        tooltip: 'Edit Log',
-        onClick: () => alert("Edit"),
-    },
-    {
-        icon: 'delete',
-        tooltip: 'Delete Log',
-        onClick: () => alert("Delete Log"),
-    },
-    {
-        icon: 'report_problem',
-        tooltip: 'It wasn\'t me!',
-        onClick: () => alert("It wasn't me!"),
-    }
-]
-
 function RemoteData(props) {
     const [state, setState] = React.useState({
         showOnlyUserEntries: true, // Set to true here by default.  Lack of token will prevent error below
     })
     
     const tableRef = React.createRef();
-    const [tableActions, setTableActions] = React.useState([])
 
     useEffect(() => {
         tableRef.current.onQueryChange() //TODO:  Figure out why this works
         // TODO set query.page to zero ^^
-        if(props.beToken != null) {
-            setTableActions(LOGGED_TABLE_ACTIONS);
-        } else {
-            setTableActions([]);
-        }
-    }, [props.beToken]) // TODO: Adding tableRef like it asks causes infinate loop
+        
+    }) // TODO: Adding tableRef like it asks causes infinate loop
 
     const handleSwitch = name => event => {
         // This is being clever and using one for all switches
@@ -239,6 +216,13 @@ function RemoteData(props) {
                     />
                 ),
             },
+            {
+                title: 'Added By',
+                field: 'added_by',
+                render: rowData => (
+                    rowData.added_by
+                ),
+            },
         ]}
         data={ query => 
             new Promise((resolve, reject) => {
@@ -269,7 +253,28 @@ function RemoteData(props) {
             components={{//TODO: Inline style
                 Toolbar: props => ( tableHeader )
             }}
-            actions={tableActions}
+            actions={ props.userProfile == null ? [] :
+                [
+                rowData => ({
+                    icon: 'edit',
+                    tooltip: 'Edit Log',
+                    onClick: () => alert("Edit"),
+                    disabled: rowData.added_by !== props.userProfile.gamertag
+                }),
+                rowData => ({
+                    icon: 'delete',
+                    tooltip: 'Delete Log',
+                    onClick: () => alert("Delete Log"),
+                    disabled: rowData.added_by !== props.userProfile.gamertag
+                }),
+                rowData => ({
+                    icon: 'report_problem',
+                    tooltip: 'It wasn\'t me!',
+                    onClick: () => alert("It wasn't me!"),                      // TODO: Doesn't work with ===.  Why?
+                    disabled: (rowData.crew.filter(e => e === props.userProfile.gamertag) != props.userProfile.gamertag 
+                                || rowData.added_by === props.userProfile.gamertag)
+                })
+            ]} // TODO: Possibly mixing styles
             options={{
                 rowStyle: rowData => ({
                     backgroundColor: (rowData.loss ? '#FFDDDD' : '#FFF')
