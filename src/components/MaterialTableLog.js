@@ -28,6 +28,7 @@ function RemoteData(props) {
     const tableRef = React.createRef();
 
     useEffect(() => {
+        // Reset table
         tableRef.current.onQueryChange() //TODO:  Figure out why this works
         // TODO set query.page to zero ^^
         
@@ -136,6 +137,24 @@ function RemoteData(props) {
     (
        <div></div> // Override toolbar with empty div
     )
+
+    function deleteEntry(id) {
+        let config = {
+            headers: {
+                'Authorization': 'Token  ' + props.beToken
+            }
+          }
+        //   let body = { pk: id };
+          console.log(config);
+          axios.delete(BE_SERVER + "/api/my_entries/" + id, config) 
+                  .then((response) => {
+                    //refresh table
+                    tableRef.current.onQueryChange()
+                  })
+                  .catch((error) => {
+                      console.log(error);
+                  })
+    }
 
     return (
     <div>
@@ -264,7 +283,7 @@ function RemoteData(props) {
                 rowData => ({
                     icon: 'delete',
                     tooltip: 'Delete Log',
-                    onClick: () => alert("Delete Log"),
+                    onClick: () => {deleteEntry(rowData.id)},
                     disabled: rowData.added_by !== props.userProfile.gamertag
                 }),
                 rowData => ({

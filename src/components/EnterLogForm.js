@@ -68,7 +68,6 @@ function EnterLog(props) {
   });
 
   function handleSubmit() {
-    console.log("props in submit: ", props)
     let config = {
       headers: {
           'Authorization': 'Token  ' + props.data.beToken
