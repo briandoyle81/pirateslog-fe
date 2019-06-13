@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import Select from 'react-select';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -240,6 +240,12 @@ function GetIslandSelection(props) {
         value: suggestion.id,
         label: suggestion.name
     }))
+
+  useEffect(() => {
+    if(props.island !== {}) {
+      setSingle(props.island)
+    }
+  }, [props.island])
 
   function handleChangeSingle(value) {
     setSingle(value);

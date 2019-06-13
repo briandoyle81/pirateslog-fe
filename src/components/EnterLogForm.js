@@ -287,7 +287,7 @@ function EnterLog(props) {
             </FormControl>
           </form>
           {getCrew}
-          <GetIslandSelection data={props.data} handleIslandSelect={handleIslandSelect}/>
+          <GetIslandSelection data={props.data} island={values.island} handleIslandSelect={handleIslandSelect}/>
           {/* <TextField
             margin="dense"
             id="name"
