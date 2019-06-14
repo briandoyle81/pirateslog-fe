@@ -55,18 +55,24 @@ const useStyles = makeStyles(theme => ({
 function EnterLog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  // const [selectedDate, setSelectedDate] = React.useState(new Date());
+
+  // Create suggestions for Island Selection
+  // It's done here to set a default to be passed in via value, label
+  const suggestions = props.data.islands.map(suggestion => ({
+    value: suggestion.id,
+    label: suggestion.name
+  }))
   
   const [values, setValues] = React.useState({
     enemyShip: 'U',
     treasure: 'U',
     tears: 'U',
-    island: props.data.islands[0],
+    island: suggestions[0],
     crew: {},
     myShip: 'U',
     dateTime: new Date()
   });
-  
+
   function handleSubmit() {
     let config = {
       headers: {
@@ -97,6 +103,7 @@ function EnterLog(props) {
   function handleIslandSelect(island) {
     let newValues = values;
     newValues.island = island;
+    console.log(newValues.island)
     setValues(newValues);
   }
 
@@ -287,7 +294,7 @@ function EnterLog(props) {
             </FormControl>
           </form>
           {getCrew}
-          <GetIslandSelection data={props.data} island={values.island} handleIslandSelect={handleIslandSelect}/>
+          <GetIslandSelection data={props.data} island={values.island} suggestions={suggestions} handleIslandSelect={handleIslandSelect}/>
           {/* <TextField
             margin="dense"
             id="name"

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Select from 'react-select';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -214,11 +214,7 @@ function GetIslandSelection(props) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const suggestions = props.data.islands.map(suggestion => ({
-      value: suggestion.id,
-      label: suggestion.name
-  }))
-  const [single, setSingle] = React.useState(null); // TODO: This doesn't work
+  const [single, setSingle] = React.useState(props.island); // TODO: This doesn't work
 
   useEffect(() => {
     console.log("use effect in island select", props.island)
@@ -255,10 +251,9 @@ function GetIslandSelection(props) {
             },
             placeholder: 'Select an island...', // Appears to have no effect
           }}
-          options={suggestions}
+          options={props.suggestions}
           components={components}
           value={single}
-          defaultValue={suggestions[0]}
           onChange={handleChangeSingle}
         />
       </NoSsr>
