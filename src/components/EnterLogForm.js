@@ -61,12 +61,12 @@ function EnterLog(props) {
     enemyShip: 'U',
     treasure: 'U',
     tears: 'U',
-    island: {},
+    island: props.data.islands[0],
     crew: {},
     myShip: 'U',
     dateTime: new Date()
   });
-
+  
   function handleSubmit() {
     let config = {
       headers: {

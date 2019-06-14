@@ -185,27 +185,6 @@ ValueContainer.propTypes = {
   selectProps: PropTypes.object.isRequired,
 };
 
-function MultiValue(props) {
-  return (
-    <Chip
-      tabIndex={-1}
-      label={props.children}
-      className={clsx(props.selectProps.classes.chip, {
-        [props.selectProps.classes.chipFocused]: props.isFocused,
-      })}
-      onDelete={props.removeProps.onClick}
-      deleteIcon={<CancelIcon {...props.removeProps} />}
-    />
-  );
-}
-
-MultiValue.propTypes = {
-  children: PropTypes.node,
-  isFocused: PropTypes.bool,
-  removeProps: PropTypes.object.isRequired,
-  selectProps: PropTypes.object.isRequired,
-};
-
 function Menu(props) {
   return (
     <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
@@ -223,7 +202,7 @@ Menu.propTypes = {
 const components = {
   Control,
   Menu,
-  MultiValue,
+  // MultiValue,
   NoOptionsMessage,
   Option,
   Placeholder,
@@ -234,17 +213,16 @@ const components = {
 function GetIslandSelection(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const [single, setSingle] = React.useState(null);
 
-    const suggestions = props.data.islands.map(suggestion => ({
-        value: suggestion.id,
-        label: suggestion.name
-    }))
+  const suggestions = props.data.islands.map(suggestion => ({
+      value: suggestion.id,
+      label: suggestion.name
+  }))
+  const [single, setSingle] = React.useState(null); // TODO: This doesn't work
 
   useEffect(() => {
-    if(props.island !== {}) {
-      setSingle(props.island)
-    }
+    console.log("use effect in island select", props.island)
+    setSingle(props.island)
   }, [props.island])
 
   function handleChangeSingle(value) {
@@ -275,11 +253,12 @@ function GetIslandSelection(props) {
               htmlFor: 'react-select-single',
               shrink: true,
             },
-            placeholder: 'Select an island...',
+            placeholder: 'Select an island...', // Appears to have no effect
           }}
           options={suggestions}
           components={components}
           value={single}
+          defaultValue={suggestions[0]}
           onChange={handleChangeSingle}
         />
       </NoSsr>
