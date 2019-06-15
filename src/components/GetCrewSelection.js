@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import clsx from 'clsx';
 import Select from 'react-select';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -242,6 +242,10 @@ function GetCrewSelection(props) {
         value: suggestion.id,
         label: suggestion.gamertag
     }))
+
+    useEffect(() => {
+      setSingle(props.crew)
+    }, [props.crew])
 
     // Remove the current user from the list of crewmembers to select
     suggestions = suggestions.filter(item => item.value !== props.data.userProfile.id)

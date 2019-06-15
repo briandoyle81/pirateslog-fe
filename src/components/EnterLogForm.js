@@ -68,7 +68,7 @@ function EnterLog(props) {
     treasure: 'U',
     tears: 'U',
     island: suggestions[0],
-    crew: {},
+    crew: null,
     myShip: 'U',
     dateTime: new Date()
   });
@@ -128,7 +128,7 @@ function EnterLog(props) {
   }
 
   let getCrew = props.data.userProfile.verified ? (
-    <GetCrewSelection data={props.data} handleCrewSelect={handleCrewSelect}/>
+    <GetCrewSelection data={props.data} crew={values.crew} handleCrewSelect={handleCrewSelect}/>
   ):
   (
     <Typography>You must verify your Gamertag to enter your crew.</Typography>
