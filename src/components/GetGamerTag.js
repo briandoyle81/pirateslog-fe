@@ -68,7 +68,7 @@ function GetGamertag(props) {
 
   let tagKnownButNotverified = (registeredTag !== '' && !verified) ? (
     <div>
-    {"Your currently claimed tag is " + registeredTag + ".  Please enter the verification code from your Xbox Live Messages.  It may take a few minutes for the message to arrive."}
+    {"Your currently claimed tag is " + registeredTag + ".  Please enter the verification code from your Xbox Live Messages.  This is currently manual and may take awhile.  Please contact whoever told you to sign up for details."}
       <TextField
             autoFocus
             margin="dense"
