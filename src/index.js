@@ -39,6 +39,8 @@ class App extends Component {
             islands: null,
             profiles: null,
             verified: false, // TODO: This is in profiles
+            editLogEntry: null, // Used to pass log to edit from RemoteTable to EnterLogForm
+            openForm: false,
         };
 
         this.getIslands(); // Get and cache the list of islands
@@ -70,7 +72,23 @@ class App extends Component {
         })
     }
 
+    handleEditLog = (entry) => {
+        // This changes the prop passed into EnterLogForm and triggers edit mode
+        
+        let newState = this.state;
+        newState.editLogEntry = entry;
+        this.state = newState;
+        console.log("index handling entry:", entry, this.state.editLogEntry)
+    }
+
+    handleResetEditLog = () => {
+        let newState = this.state;
+        newState.editLogEntry = null;
+        this.state = newState;
+    }
+
     handleNewLogEntered = () => {
+        console.log("hi")
         this.forceUpdate(); //TODO: Find better solution
     }
                                 //TODO: rename loginState to google token
@@ -170,7 +188,7 @@ class App extends Component {
         let enterLogButton = <Typography>Please enter your Gamertag!</Typography>
         if (this.state.userProfile != null){
         if (this.state.userProfile.gamertag !== ""){
-            enterLogButton = <EnterLog data={this.state} handleNewLogEntered={this.handleNewLogEntered}/>
+            enterLogButton = <EnterLog data={this.state} handleResetEditLog={this.handleResetEditLog} handleNewLogEntered={this.handleNewLogEntered}/>
             }
         }
 
@@ -191,7 +209,7 @@ class App extends Component {
                     <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange}/>
                     <Container maxWidth="lg">
                         <Divider />
-                        <RemoteData beToken={this.state.beToken} userProfile={this.state.userProfile}/>
+                        <RemoteData beToken={this.state.beToken} userProfile={this.state.userProfile} handleEditLog={this.handleEditLog}/>
                         { addLog }
                     </Container>
                 </div>

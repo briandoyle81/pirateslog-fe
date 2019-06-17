@@ -288,7 +288,7 @@ function RemoteData(props) {
                 rowData => ({
                     icon: 'edit',
                     tooltip: 'Edit Log',
-                    onClick: () => alert("edit log"),
+                    onClick: () => props.handleEditLog(rowData),
                     disabled: rowData.added_by !== props.userProfile.gamertag
                 }),
                 rowData => ({

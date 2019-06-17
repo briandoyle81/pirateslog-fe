@@ -1,5 +1,5 @@
 import 'date-fns';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -55,6 +55,7 @@ const useStyles = makeStyles(theme => ({
 function EnterLog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [editEntry, setEditEntry] = React.useState(props.data.editLogEntry);
 
   // Create suggestions for Island Selection
   // It's done here to set a default to be passed in via value, label
@@ -72,6 +73,20 @@ function EnterLog(props) {
     myShip: 'U',
     dateTime: new Date()
   });
+
+  function handleEditLog(entry) {
+    console.log("handling edit log en form")
+    setEditEntry(entry);
+    setOpen(true);
+  }
+
+  // useEffect(() => {
+  //   console.log(" use effect in logform, edit log: ", props.data.editLogEntry)
+  //   setEditEntry(props.data.editLogEntry);
+  //   if(editEntry != null) {
+  //     setOpen(true);
+  //   }
+  // }, [props.data.editLogEntry, editEntry])
 
   function handleSubmit() {
     let config = {
@@ -117,8 +132,13 @@ function EnterLog(props) {
     setOpen(true);
   }
 
+  function handleClickEdit(entry) {
+    console.log(entry);
+  }
+
   function handleClose() {
     setOpen(false);
+    setEditEntry(null);
   }
 
   function handleDateChange(date) {
@@ -133,6 +153,12 @@ function EnterLog(props) {
   (
     <Typography>You must verify your Gamertag to enter your crew.</Typography>
   )
+  let editModeTitle = editEntry == null ? (
+    <Typography>Edit Entry</Typography>
+  ):
+  (
+    <Typography>New Entry</Typography>
+  )
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -140,7 +166,7 @@ function EnterLog(props) {
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
-          { props.data.userProfile != null ? props.data.userProfile.gamertag + "'s Log" : "Pirate's Log"}
+          {editModeTitle}
         </DialogTitle>
         <DialogContent>
           <KeyboardDatePicker
