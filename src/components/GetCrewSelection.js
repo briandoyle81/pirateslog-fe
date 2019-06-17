@@ -250,7 +250,6 @@ function GetCrewSelection(props) {
     // Remove the current user from the list of crewmembers to select
     // TODO: Do this by ID (gamertag object here doesn't have id now)
     suggestions = suggestions.filter(item => item.label !== props.data.userProfile.gamertag)
-    console.log(suggestions)
 
   function handleChangeSingle(value) {
     setSingle(value);

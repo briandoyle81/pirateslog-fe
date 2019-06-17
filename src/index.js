@@ -40,7 +40,7 @@ class App extends Component {
             profiles: null,
             verified: false, // TODO: This is in profiles
             editLogEntry: null, // Used to pass log to edit from RemoteTable to EnterLogForm
-            openForm: false,
+            openForm: false, // TODO: This feels like bad separation of concerns
         };
 
         this.getIslands(); // Get and cache the list of islands
@@ -50,7 +50,6 @@ class App extends Component {
     getProfiles = () => {
         axios.get(BE_SERVER + '/api/profiles/') 
             .then((response) => {
-                console.log("crew", response)
                 let newState = this.state;
                 newState.profiles = response.data;
                 this.setState(newState);
@@ -72,6 +71,19 @@ class App extends Component {
         })
     }
 
+    handleOpenLogForm = () => {
+        let newState = this.state;
+        newState.openForm = true;
+        this.setState(newState);
+    }
+
+    handleCloseLogForm = () => {
+        let newState = this.state;
+        newState.openForm = false;
+        newState.editLogEntry = false;
+        this.setState(newState);
+    }
+
     handleEditLog = (entry) => {
         // This changes the prop passed into EnterLogForm and triggers edit mode
         
@@ -81,15 +93,14 @@ class App extends Component {
         console.log("index handling entry:", entry, this.state.editLogEntry)
     }
 
-    handleResetEditLog = () => {
-        let newState = this.state;
-        newState.editLogEntry = null;
-        this.state = newState;
-    }
+    // handleResetEditLog = () => {
+    //     let newState = this.state;
+    //     newState.editLogEntry = null;
+    //     this.state = newState;
+    // }
 
     handleNewLogEntered = () => {
-        console.log("hi")
-        this.forceUpdate(); //TODO: Find better solution
+        this.forceUpdate(); //TODO: Find better solution to force table to redraw
     }
                                 //TODO: rename loginState to google token
     handleLoginStateChange = (token, provider) => {
@@ -138,7 +149,6 @@ class App extends Component {
         }
         axios.post(BE_SERVER + "/update_gamertag/", body, config) 
             .then((response) => {
-                console.log(response);
                 // TODO: Response should be whole profile
                 let newState = this.state;
                 newState.userProfile.gamertag = response.data;
@@ -188,7 +198,12 @@ class App extends Component {
         let enterLogButton = <Typography>Please enter your Gamertag!</Typography>
         if (this.state.userProfile != null){
         if (this.state.userProfile.gamertag !== ""){
-            enterLogButton = <EnterLog data={this.state} handleResetEditLog={this.handleResetEditLog} handleNewLogEntered={this.handleNewLogEntered}/>
+            enterLogButton = <EnterLog 
+                data={this.state} 
+                handleOpenLogForm={this.handleOpenLogForm}
+                handleCloseLogForm={this.handleCloseLogForm}
+                handleResetEditLog={this.handleResetEditLog} 
+                handleNewLogEntered={this.handleNewLogEntered}/>
             }
         }
 

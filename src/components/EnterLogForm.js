@@ -54,8 +54,6 @@ const useStyles = makeStyles(theme => ({
 
 function EnterLog(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [editEntry, setEditEntry] = React.useState(props.data.editLogEntry);
 
   // Create suggestions for Island Selection
   // It's done here to set a default to be passed in via value, label
@@ -74,19 +72,16 @@ function EnterLog(props) {
     dateTime: new Date()
   });
 
-  function handleEditLog(entry) {
-    console.log("handling edit log en form")
-    setEditEntry(entry);
-    setOpen(true);
-  }
+  // function handleEditLog(entry) {
+  //   console.log("handling edit log en form")
+  //   setEditEntry(entry);
+  //   setOpen(true);
+  // }
 
   // useEffect(() => {
-  //   console.log(" use effect in logform, edit log: ", props.data.editLogEntry)
-  //   setEditEntry(props.data.editLogEntry);
-  //   if(editEntry != null) {
-  //     setOpen(true);
-  //   }
-  // }, [props.data.editLogEntry, editEntry])
+  //   console.log(" use effect in logform, edit log: ")
+    
+  // }, [props.data.editForm])
 
   function handleSubmit() {
     let config = {
@@ -104,7 +99,7 @@ function EnterLog(props) {
             .catch((error) => {
                 console.log(error);
             })
-    handleClose();
+    props.handleCloseLogForm()
   }
 
   function handleChange(event) {
@@ -128,18 +123,15 @@ function EnterLog(props) {
     setValues(newValues);
   }
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
 
   function handleClickEdit(entry) {
     console.log(entry);
   }
 
-  function handleClose() {
-    setOpen(false);
-    setEditEntry(null);
-  }
+  // function handleClose() {
+  //   setOpen(false);
+  //   setEditEntry(null);
+  // }
 
   function handleDateChange(date) {
     let newValues = values;
@@ -153,7 +145,7 @@ function EnterLog(props) {
   (
     <Typography>You must verify your Gamertag to enter your crew.</Typography>
   )
-  let editModeTitle = editEntry == null ? (
+  let editModeTitle = props.data.editLogEntry == null ? (
     <Typography>Edit Entry</Typography>
   ):
   (
@@ -161,10 +153,10 @@ function EnterLog(props) {
   )
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Add New Log
+      <Button variant="outlined" color="primary" onClick={props.handleOpenLogForm}>
+        Enter New Log
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={props.data.openForm} onClose={props.handleCloseLogForm} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
           {editModeTitle}
         </DialogTitle>
@@ -329,7 +321,7 @@ function EnterLog(props) {
           /> */}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={props.handleCloseLogForm} color="primary">
             Cancel
           </Button>
           <Button onClick={handleSubmit} color="primary">
