@@ -62,8 +62,9 @@ function EnterLog(props) {
     label: suggestion.name
   }))
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
-  
+  const [selectedDate, setSelectedDate] = React.useState(new Date()); //TODO: Putting this in values breaks the selector
+  const [userSelectingDate, setUserSelectingDate] = React.useState(false);
+
   const [values, setValues] = React.useState({
     enemyShip: 'U',
     treasure: 'U',
@@ -71,7 +72,6 @@ function EnterLog(props) {
     island: suggestions[0],
     crew: null,
     myShip: 'U',
-    dateTime: new Date()
   });
 
   // function handleEditLog(entry) {
@@ -81,8 +81,10 @@ function EnterLog(props) {
   // }
 
   useEffect(() => {
-    setSelectedDate(new Date())
-  }, [selectedDate])
+    if(!userSelectingDate) {
+      setSelectedDate(new Date())
+    }
+  }, [selectedDate, userSelectingDate])
 
   function handleSubmit() {
     let config = {
@@ -103,7 +105,7 @@ function EnterLog(props) {
             .catch((error) => {
                 console.log(error);
             })
-    props.handleCloseLogForm()
+    handleClose()
   }
 
   function handleChange(event) {
@@ -132,19 +134,14 @@ function EnterLog(props) {
     console.log(entry);
   }
 
-  // function handleClose() {
-  //   setOpen(false);
-  //   setEditEntry(null);
-  // }
+  function handleClose() {
+    setUserSelectingDate(false);
+    props.handleCloseLogForm();
+  }
 
   function handleDateChange(date) {
-    console.log("handling date change to: ", date)
-    let newValues = values;
-    newValues.dateTime = date;
-    setValues(newValues);
-
-    //DEBUG TEST
     setSelectedDate(date);
+    setUserSelectingDate(true);
   }
 
   let getCrew = props.data.userProfile.verified ? (
@@ -164,7 +161,7 @@ function EnterLog(props) {
       <Button variant="outlined" color="primary" onClick={props.handleOpenLogForm}>
         Enter New Log
       </Button>
-      <Dialog open={props.data.openForm} onClose={props.handleCloseLogForm} aria-labelledby="form-dialog-title">
+      <Dialog open={props.data.openForm} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">
           {editModeTitle}
         </DialogTitle>
@@ -329,7 +326,7 @@ function EnterLog(props) {
           /> */}
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleCloseLogForm} color="primary">
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
           <Button onClick={handleSubmit} color="primary">
