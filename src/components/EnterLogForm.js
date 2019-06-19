@@ -92,9 +92,9 @@ function EnterLog(props) {
     }
     // Add dateTime back in (removed to trigger updates)
     let newValues = values;
-    newValues.dateTime = setSelectedDate;
+    newValues.dateTime = selectedDate;
     let body = newValues;
-    console.log(config);
+    console.log(body);
     axios.post(BE_SERVER + "/create_log/", body, config) 
             .then((response) => {
                 console.log("added new log")
