@@ -84,6 +84,12 @@ class App extends Component {
         this.setState(newState);
     }
 
+    // handleLogDateChange = (newDateTime) => {
+    //     let newState = this.state;
+    //     newState.dateTime = newDateTime;
+    //     this.setState(newState);
+    // }
+
     handleEditLog = (entry) => {
         // This changes the prop passed into EnterLogForm and triggers edit mode
         
@@ -110,8 +116,6 @@ class App extends Component {
            
             axios.post(beServerAuthURL, token) 
                 .then((response) => {
-                    console.log(response);
-                    console.log(JSON.parse(response.data.profile))
                     let newState = this.state;
                     
                     newState.isAuthenticated = true; 
@@ -203,7 +207,8 @@ class App extends Component {
                 handleOpenLogForm={this.handleOpenLogForm}
                 handleCloseLogForm={this.handleCloseLogForm}
                 handleResetEditLog={this.handleResetEditLog} 
-                handleNewLogEntered={this.handleNewLogEntered}/>
+                handleNewLogEntered={this.handleNewLogEntered}
+                />
             }
         }
 

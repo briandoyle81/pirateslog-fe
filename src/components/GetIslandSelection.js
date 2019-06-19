@@ -217,7 +217,6 @@ function GetIslandSelection(props) {
   const [single, setSingle] = React.useState(props.island); // TODO: This doesn't work
 
   useEffect(() => {
-    console.log("use effect in island select", props.island)
     setSingle(props.island)
   }, [props.island])
 

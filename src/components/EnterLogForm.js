@@ -61,6 +61,8 @@ function EnterLog(props) {
     value: suggestion.id,
     label: suggestion.name
   }))
+
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
   
   const [values, setValues] = React.useState({
     enemyShip: 'U',
@@ -78,10 +80,9 @@ function EnterLog(props) {
   //   setOpen(true);
   // }
 
-  // useEffect(() => {
-  //   console.log(" use effect in logform, edit log: ")
-    
-  // }, [props.data.editForm])
+  useEffect(() => {
+    setSelectedDate(new Date())
+  }, [selectedDate])
 
   function handleSubmit() {
     let config = {
@@ -89,7 +90,10 @@ function EnterLog(props) {
           'Authorization': 'Token  ' + props.data.beToken
       }
     }
-    let body = values;
+    // Add dateTime back in (removed to trigger updates)
+    let newValues = values;
+    newValues.dateTime = setSelectedDate;
+    let body = newValues;
     console.log(config);
     axios.post(BE_SERVER + "/create_log/", body, config) 
             .then((response) => {
@@ -134,9 +138,13 @@ function EnterLog(props) {
   // }
 
   function handleDateChange(date) {
+    console.log("handling date change to: ", date)
     let newValues = values;
     newValues.dateTime = date;
     setValues(newValues);
+
+    //DEBUG TEST
+    setSelectedDate(date);
   }
 
   let getCrew = props.data.userProfile.verified ? (
@@ -165,7 +173,7 @@ function EnterLog(props) {
             margin="normal"
             id="mui-pickers-date"
             label="Date picker"
-            value={values.dateTime}
+            value={selectedDate}
             onChange={handleDateChange}
             KeyboardButtonProps={{
               'aria-label': 'change date',
@@ -175,7 +183,7 @@ function EnterLog(props) {
             margin="normal"
             id="mui-pickers-time"
             label="Time picker"
-            value={values.dateTime}
+            value={selectedDate}
             onChange={handleDateChange}
             KeyboardButtonProps={{
               'aria-label': 'change time',
