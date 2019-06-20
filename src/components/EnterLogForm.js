@@ -80,7 +80,7 @@ function EnterLog(props) {
     logValues.enemyShip = entry.enemyShip;
     logValues.treasure = entry.treasure;
     logValues.tears = entry.tears;
-    logValues.island = entry.island; // This may bug: ID vs Value
+    logValues.island = suggestions.filter(island => island.label === entry.island);
     logValues.crew = entry.crew;
     logValues.myShip = entry.myShip;
     setValues(logValues);
