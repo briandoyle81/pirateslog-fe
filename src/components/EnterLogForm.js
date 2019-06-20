@@ -62,8 +62,8 @@ function EnterLog(props) {
     label: suggestion.name
   }))
 
-  const [selectedDate, setSelectedDate] = React.useState(new Date()); //TODO: Putting this in values breaks the selector
-  const [logEntryToEdit, setLogEntryToEdit] = React.useState(props.data.logEntryToEdit);
+  const [selectedDate, setSelectedDate] = React.useState(null); //TODO: Putting this in values breaks the selector
+  // const [logEntryToEdit, setLogEntryToEdit] = React.useState(props.data.logEntryToEdit);
 
   const [values, setValues] = React.useState({
     enemyShip: 'U',
@@ -75,28 +75,28 @@ function EnterLog(props) {
   });
 
   function handleEditLog(entry) {
-    console.log("handling edit log en form")
-    setLogEntryToEdit(entry);
+    console.log(entry);
+    let logValues = {};
+    logValues.enemyShip = entry.enemyShip;
+    logValues.treasure = entry.treasure;
+    logValues.tears = entry.tears;
+    logValues.island = entry.island; // This may bug: ID vs Value
+    logValues.crew = entry.crew;
+    logValues.myShip = entry.myShip;
+    setValues(logValues);
+    setSelectedDate(entry.encounterTime)
   }
 
   useEffect(() => {
     console.log("use effect in enterLogForm")
-    console.log(props.data.openForm)
-    setSelectedDate(new Date())
-  }, [props.data.openForm])
-
-  // useEffect(() => {
-  //   if(!userSelectingDate) {
-  //     console.log("setting new date")
-  //     setSelectedDate(new Date())
-  //   }
-  // }, [userSelectingDate])
-
-  useEffect(() => {
-    if(props.data.logEntryToEdit != null){
+    if(props.data.openForm === true && props.data.logEntryToEdit === null) {
+      console.log("setting selected date")
+      setSelectedDate(new Date())
+    } else if (props.data.openForm === true && props.data.logEntryToEdit !== null) {
+      console.log("editing a log")
       handleEditLog(props.data.logEntryToEdit)
     }
-  }, [props.data.logEntryToEdit])
+  }, [props.data.openForm, props.data.logEntryToEdit])
 
   function handleSubmit() {
     let config = {
@@ -104,7 +104,7 @@ function EnterLog(props) {
           'Authorization': 'Token  ' + props.data.beToken
       }
     }
-    // Add dateTime back in (removed to trigger updates)
+    // Add dateTime back in (removed to fix bug with selector)
     let newValues = values;
     newValues.dateTime = selectedDate;
     let body = newValues;
