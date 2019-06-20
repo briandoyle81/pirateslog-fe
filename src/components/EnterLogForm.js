@@ -57,10 +57,23 @@ function EnterLog(props) {
 
   // Create suggestions for Island Selection
   // It's done here to set a default to be passed in via value, label
+  // TODO: Rename to islandSuggestions
   const suggestions = props.data.islands.map(suggestion => ({
     value: suggestion.id,
     label: suggestion.name
   }))
+
+  // Create crew suggestions
+  // Doing this here to support loading entries to edit
+  let crewSuggestions = props.data.profiles.map(crewSuggestion => ({
+    value: crewSuggestion.id,
+    label: crewSuggestion.gamertag
+  }))
+
+  // Remove the current user from the list of crewmembers to select
+  // TODO: Do this by ID (gamertag object here doesn't have id now)
+  crewSuggestions = crewSuggestions.filter(item => item.label !== props.data.userProfile.gamertag)
+
 
   const [selectedDate, setSelectedDate] = React.useState(null); //TODO: Putting this in values breaks the selector
   // const [logEntryToEdit, setLogEntryToEdit] = React.useState(props.data.logEntryToEdit);
@@ -74,29 +87,24 @@ function EnterLog(props) {
     myShip: 'U',
   });
 
-  function handleEditLog(entry) {
-    console.log(entry);
-    let logValues = {};
-    logValues.enemyShip = entry.enemyShip;
-    logValues.treasure = entry.treasure;
-    logValues.tears = entry.tears;
-    logValues.island = suggestions.filter(island => island.label === entry.island);
-    logValues.crew = entry.crew;
-    logValues.myShip = entry.myShip;
-    setValues(logValues);
-    setSelectedDate(entry.encounterTime)
-  }
-
   useEffect(() => {
-    console.log("use effect in enterLogForm")
+    console.log("use effect in enterLogForm Props", props.data)
     if(props.data.openForm === true && props.data.logEntryToEdit === null) {
-      console.log("setting selected date")
+      // Set to current date/time if we're not editing a log
       setSelectedDate(new Date())
     } else if (props.data.openForm === true && props.data.logEntryToEdit !== null) {
-      console.log("editing a log")
-      handleEditLog(props.data.logEntryToEdit)
+      // Load data from old entry into log
+      let logValues = {};
+      logValues.enemyShip = props.data.logEntryToEdit.enemyShip;
+      logValues.treasure = props.data.logEntryToEdit.treasure;
+      logValues.tears = props.data.logEntryToEdit.tears;
+      logValues.island = suggestions.filter(island => island.label === props.data.logEntryToEdit.island);
+      logValues.crew = crewSuggestions.filter(profile => props.data.logEntryToEdit.crew.includes(profile.label));
+      logValues.myShip = props.data.logEntryToEdit.myShip;
+      setValues(logValues);
+      setSelectedDate(props.data.logEntryToEdit.encounterTime)
     }
-  }, [props.data.openForm, props.data.logEntryToEdit])
+  }, [props.data.openForm, props.data.logEntryToEdit]) // To avoid extra calls, DO NOT put `suggestions` here 
 
   function handleSubmit() {
     let config = {
@@ -155,7 +163,7 @@ function EnterLog(props) {
   }
 
   let getCrew = props.data.userProfile.verified ? (
-    <GetCrewSelection data={props.data} crew={values.crew} handleCrewSelect={handleCrewSelect}/>
+    <GetCrewSelection data={props.data} crew={values.crew} crewSuggestions={crewSuggestions} handleCrewSelect={handleCrewSelect}/>
   ):
   (
     <Typography>You must verify your Gamertag to enter your crew.</Typography>

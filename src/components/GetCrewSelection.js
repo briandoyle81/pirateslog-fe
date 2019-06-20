@@ -238,18 +238,9 @@ function GetCrewSelection(props) {
   //TODO:  Name 'single' is from example, change to be clearer, particularly since this is a multi
   const [single, setSingle] = React.useState(null);
 
-    let suggestions = props.data.profiles.map(suggestion => ({
-        value: suggestion.id,
-        label: suggestion.gamertag
-    }))
-
     useEffect(() => {
       setSingle(props.crew)
     }, [props.crew])
-
-    // Remove the current user from the list of crewmembers to select
-    // TODO: Do this by ID (gamertag object here doesn't have id now)
-    suggestions = suggestions.filter(item => item.label !== props.data.userProfile.gamertag)
 
   function handleChangeSingle(value) {
     setSingle(value);
@@ -281,7 +272,7 @@ function GetCrewSelection(props) {
             },
             placeholder: 'Select crewmembers...',
           }}
-          options={suggestions}
+          options={props.crewSuggestions}
           components={components}
           value={single} //TODO:  Single here refers to the state var
           onChange={handleChangeSingle}
