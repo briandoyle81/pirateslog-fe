@@ -56,7 +56,7 @@ function EnterLog(props) {
   const classes = useStyles();
 
   // Create suggestions for Island Selection
-  // It's done here to set a default to be passed in via value, label
+  // Done here to set a default to be passed in via value, label
   // TODO: Rename to islandSuggestions
   const suggestions = props.data.islands.map(suggestion => ({
     value: suggestion.id,
@@ -64,7 +64,7 @@ function EnterLog(props) {
   }))
 
   // Create crew suggestions
-  // Doing this here to support loading entries to edit
+  // Done here to support loading entries to edit
   let crewSuggestions = props.data.profiles.map(crewSuggestion => ({
     value: crewSuggestion.id,
     label: crewSuggestion.gamertag
@@ -76,7 +76,7 @@ function EnterLog(props) {
 
 
   const [selectedDate, setSelectedDate] = React.useState(null); //TODO: Putting this in values breaks the selector
-  // const [logEntryToEdit, setLogEntryToEdit] = React.useState(props.data.logEntryToEdit);
+  const [logEntryToEditID, setlogEntryToEditID] = React.useState(null);
 
   const [values, setValues] = React.useState({
     enemyShip: 'U',
@@ -88,10 +88,10 @@ function EnterLog(props) {
   });
 
   useEffect(() => {
-    console.log("use effect in enterLogForm Props", props.data)
     if(props.data.openForm === true && props.data.logEntryToEdit === null) {
       // Set to current date/time if we're not editing a log
       setSelectedDate(new Date())
+      setlogEntryToEditID(null)
     } else if (props.data.openForm === true && props.data.logEntryToEdit !== null) {
       // Load data from old entry into log
       let logValues = {};
@@ -103,29 +103,33 @@ function EnterLog(props) {
       logValues.myShip = props.data.logEntryToEdit.myShip;
       setValues(logValues);
       setSelectedDate(props.data.logEntryToEdit.encounterTime)
+      setlogEntryToEditID(props.data.logEntryToEdit.id)
     }
   }, [props.data.openForm, props.data.logEntryToEdit]) // To avoid extra calls, DO NOT put `suggestions` here 
 
   function handleSubmit() {
-    let config = {
-      headers: {
-          'Authorization': 'Token  ' + props.data.beToken
+    if(logEntryToEditID === null) {
+      let config = {
+        headers: {
+            'Authorization': 'Token  ' + props.data.beToken
+        }
       }
+      // Add dateTime back in (removed to fix bug with selector)
+      let newValues = values;
+      newValues.dateTime = selectedDate;
+      let body = newValues;
+      console.log(body);
+      axios.post(BE_SERVER + "/create_log/", body, config) 
+              .then((response) => {
+                  console.log("added new log")
+                  props.handleNewLogEntered();
+              })
+              .catch((error) => {
+                  console.log(error);
+              })
     }
-    // Add dateTime back in (removed to fix bug with selector)
-    let newValues = values;
-    newValues.dateTime = selectedDate;
-    let body = newValues;
-    console.log(body);
-    axios.post(BE_SERVER + "/create_log/", body, config) 
-            .then((response) => {
-                console.log("added new log")
-                props.handleNewLogEntered();
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     handleClose()
+    
   }
 
   function handleChange(event) {
@@ -155,6 +159,17 @@ function EnterLog(props) {
   }
 
   function handleClose() {
+    if(logEntryToEditID !== null){ //Reset if we opened in edit
+      setValues({
+        enemyShip: 'U',
+        treasure: 'U',
+        tears: 'U',
+        island: suggestions[0],
+        crew: null,
+        myShip: 'U',
+      })
+      setSelectedDate(null)
+    }
     props.handleCloseLogForm();
   }
 
