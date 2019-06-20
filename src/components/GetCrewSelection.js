@@ -265,7 +265,7 @@ function GetCrewSelection(props) {
           styles={selectStyles}
           inputId="react-select-crew"
           TextFieldProps={{
-            label: 'Crew',
+            label: 'Additional Crew Members',
             InputLabelProps: {
               htmlFor: 'react-select-crew',
               shrink: true,
