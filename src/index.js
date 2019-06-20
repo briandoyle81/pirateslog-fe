@@ -39,8 +39,9 @@ class App extends Component {
             islands: null,
             profiles: null,
             verified: false, // TODO: This is in profiles
-            editLogEntry: null, // Used to pass log to edit from RemoteTable to EnterLogForm
+            logEntryToEdit: null, // Used to pass log to edit from RemoteTable to EnterLogForm
             openForm: false, // TODO: This feels like bad separation of concerns
+            userEditTime: false,
         };
 
         this.getIslands(); // Get and cache the list of islands
@@ -74,13 +75,14 @@ class App extends Component {
     handleOpenLogForm = () => {
         let newState = this.state;
         newState.openForm = true;
+        newState.userEditTime = false;
         this.setState(newState);
     }
 
     handleCloseLogForm = () => {
         let newState = this.state;
         newState.openForm = false;
-        newState.editLogEntry = false;
+        newState.logEntryToEdit = null;
         this.setState(newState);
     }
 
@@ -94,14 +96,14 @@ class App extends Component {
         // This changes the prop passed into EnterLogForm and triggers edit mode
         
         let newState = this.state;
-        newState.editLogEntry = entry;
-        this.state = newState;
-        console.log("index handling entry:", entry, this.state.editLogEntry)
+        newState.logEntryToEdit = entry;
+        newState.openForm = true;
+        this.setState(newState);
     }
 
     // handleResetEditLog = () => {
     //     let newState = this.state;
-    //     newState.editLogEntry = null;
+    //     newState.logEntryToEdit = null;
     //     this.state = newState;
     // }
 

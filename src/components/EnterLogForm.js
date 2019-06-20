@@ -63,7 +63,7 @@ function EnterLog(props) {
   }))
 
   const [selectedDate, setSelectedDate] = React.useState(new Date()); //TODO: Putting this in values breaks the selector
-  const [userSelectingDate, setUserSelectingDate] = React.useState(false);
+  const [logEntryToEdit, setLogEntryToEdit] = React.useState(props.data.logEntryToEdit);
 
   const [values, setValues] = React.useState({
     enemyShip: 'U',
@@ -74,17 +74,29 @@ function EnterLog(props) {
     myShip: 'U',
   });
 
-  // function handleEditLog(entry) {
-  //   console.log("handling edit log en form")
-  //   setEditEntry(entry);
-  //   setOpen(true);
-  // }
+  function handleEditLog(entry) {
+    console.log("handling edit log en form")
+    setLogEntryToEdit(entry);
+  }
 
   useEffect(() => {
-    if(!userSelectingDate) {
-      setSelectedDate(new Date())
+    console.log("use effect in enterLogForm")
+    console.log(props.data.openForm)
+    setSelectedDate(new Date())
+  }, [props.data.openForm])
+
+  // useEffect(() => {
+  //   if(!userSelectingDate) {
+  //     console.log("setting new date")
+  //     setSelectedDate(new Date())
+  //   }
+  // }, [userSelectingDate])
+
+  useEffect(() => {
+    if(props.data.logEntryToEdit != null){
+      handleEditLog(props.data.logEntryToEdit)
     }
-  }, [selectedDate, userSelectingDate])
+  }, [props.data.logEntryToEdit])
 
   function handleSubmit() {
     let config = {
@@ -135,13 +147,11 @@ function EnterLog(props) {
   }
 
   function handleClose() {
-    setUserSelectingDate(false);
     props.handleCloseLogForm();
   }
 
   function handleDateChange(date) {
     setSelectedDate(date);
-    setUserSelectingDate(true);
   }
 
   let getCrew = props.data.userProfile.verified ? (
@@ -150,7 +160,7 @@ function EnterLog(props) {
   (
     <Typography>You must verify your Gamertag to enter your crew.</Typography>
   )
-  let editModeTitle = props.data.editLogEntry == null ? (
+  let editModeTitle = props.data.logEntryToEdit !== null ? (
     <Typography>Edit Entry</Typography>
   ):
   (
