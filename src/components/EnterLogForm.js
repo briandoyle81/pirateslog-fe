@@ -32,6 +32,8 @@ import {
     MedTreasureAvatar,
     MegAvatar,
     SkelleonAvatar,
+    FortAvatar,
+    ShipCloudAvatar,
   } from './ImageAvatars'
 import ImageIcon from '@material-ui/icons/Image';
 
@@ -249,7 +251,7 @@ function EnterLog(props) {
           />
           <form className={classes.root} autoComplete="off">
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="enemy-ship">Enemy Ship</InputLabel>
+              <InputLabel htmlFor="enemy-ship">Enemy</InputLabel>
               <Select
                 value={values.enemyShip}
                 onChange={handleChange}
@@ -276,6 +278,31 @@ function EnterLog(props) {
                 <MenuItem value={'G'}>
                   <Avatar>
                     <GalleonAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'K'}>
+                  <Avatar>
+                    <KarenAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'M'}>
+                  <Avatar>
+                    <MegAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'SK'}>
+                  <Avatar>
+                    <SkelleonAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'F'}>
+                  <Avatar>
+                    <FortAvatar />
+                  </Avatar>
+                </MenuItem>
+                <MenuItem value={'SC'}>
+                  <Avatar>
+                    <ShipCloudAvatar />
                   </Avatar>
                 </MenuItem>
               </Select>

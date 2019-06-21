@@ -20,6 +20,8 @@ import {
     MedTreasureAvatar,
     MegAvatar,
     SkelleonAvatar,
+    FortAvatar,
+    ShipCloudAvatar,
   } from './ImageAvatars'
 import ImageIcon from '@material-ui/icons/Image';
 
@@ -119,6 +121,26 @@ function RemoteData(props) {
                 return(<Avatar>
                         <GalleonAvatar />
                     </Avatar>)
+            case 'K':
+                return(<Avatar>
+                        <KarenAvatar />
+                    </Avatar>)
+            case 'M':
+                return(<Avatar>
+                        <MegAvatar />
+                    </Avatar>)
+            case 'SK':
+                return(<Avatar>
+                        <SkelleonAvatar />
+                    </Avatar>)
+            case 'F':
+                return(<Avatar>
+                        <FortAvatar />
+                    </Avatar>)
+            case 'SC':
+                return(<Avatar>
+                        <ShipCloudAvatar />
+                    </Avatar>)
             default:
                 return(<Avatar>
                         <ImageIcon />
@@ -204,7 +226,7 @@ function RemoteData(props) {
                 ),
             },
             {
-                title: 'Enemy Ship',
+                title: 'Enemy',
                 field: 'avatar',
                 render: rowData => (
                             getShipIcon(rowData.enemyShip)

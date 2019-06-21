@@ -148,6 +148,26 @@ function SkelleonAvatar() {
   );
 }
 
+function FortAvatar() {
+  const classes = useStyles();
+
+  return (
+    <Grid container justify="center" alignItems="center">
+      <Avatar alt="Fort" src={fort} className={classes.avatar} />
+    </Grid>
+  );
+}
+
+function ShipCloudAvatar() {
+  const classes = useStyles();
+
+  return (
+    <Grid container justify="center" alignItems="center">
+      <Avatar alt="Ship Cloud" src={cloudShipSvg} className={classes.avatar} />
+    </Grid>
+  );
+}
+
 export  {
   SloopAvatar,
   BrigAvatar,
@@ -161,4 +181,6 @@ export  {
   MedTreasureAvatar,
   MegAvatar,
   SkelleonAvatar,
+  FortAvatar,
+  ShipCloudAvatar,
 }
