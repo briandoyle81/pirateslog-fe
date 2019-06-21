@@ -23,6 +23,15 @@ import {
     SloopAvatar,
     BrigAvatar,
     GalleonAvatar,
+    HighTearsAvatar,
+    HighTreasureAvatar,
+    KarenAvatar,
+    LowTearsAvatar,
+    LowTreasureAvatar,
+    MedTearsAvatar,
+    MedTreasureAvatar,
+    MegAvatar,
+    SkelleonAvatar,
   } from './ImageAvatars'
 import ImageIcon from '@material-ui/icons/Image';
 
@@ -293,12 +302,12 @@ function EnterLog(props) {
                 </MenuItem>
                 <MenuItem value={'L'}>
                   <Avatar>
-                    L
+                    <LowTreasureAvatar />
                   </Avatar>
                 </MenuItem>
                 <MenuItem value={'H'}>
                   <Avatar>
-                    H
+                    <HighTreasureAvatar />
                   </Avatar>
                 </MenuItem>
               </Select>
@@ -325,12 +334,12 @@ function EnterLog(props) {
                 </MenuItem>
                 <MenuItem value={'L'}>
                   <Avatar>
-                    L
+                    <LowTearsAvatar />
                   </Avatar>
                 </MenuItem>
                 <MenuItem value={'H'}>
                   <Avatar>
-                    H
+                    <HighTearsAvatar />
                   </Avatar>
                 </MenuItem>
               </Select>

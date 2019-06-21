@@ -11,6 +11,15 @@ import {
     SloopAvatar,
     BrigAvatar,
     GalleonAvatar,
+    HighTearsAvatar,
+    HighTreasureAvatar,
+    KarenAvatar,
+    LowTearsAvatar,
+    LowTreasureAvatar,
+    MedTearsAvatar,
+    MedTreasureAvatar,
+    MegAvatar,
+    SkelleonAvatar,
   } from './ImageAvatars'
 import ImageIcon from '@material-ui/icons/Image';
 
@@ -54,11 +63,11 @@ function RemoteData(props) {
                     </Avatar>)
             case 'L':
                 return(<Avatar>
-                        L
+                        <LowTreasureAvatar />
                     </Avatar>)
             case 'H':
                 return(<Avatar>
-                        H
+                        <HighTreasureAvatar />
                     </Avatar>)
             default:
                 return(<Avatar>
@@ -79,11 +88,11 @@ function RemoteData(props) {
                     </Avatar>)
             case 'L':
                 return(<Avatar>
-                        L
+                        <LowTearsAvatar />
                     </Avatar>)
             case 'H':
                 return(<Avatar>
-                        H
+                        <HighTearsAvatar />
                     </Avatar>)
             default:
                 return(<Avatar>
