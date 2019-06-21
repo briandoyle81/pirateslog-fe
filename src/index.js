@@ -86,27 +86,15 @@ class App extends Component {
         this.setState(newState);
     }
 
-    // handleLogDateChange = (newDateTime) => {
-    //     let newState = this.state;
-    //     newState.dateTime = newDateTime;
-    //     this.setState(newState);
-    // }
-
     handleEditLog = (entry) => {
         // This changes the prop passed into EnterLogForm and triggers edit mode
-        
         let newState = this.state;
         newState.logEntryToEdit = entry;
         newState.openForm = true;
         this.setState(newState);
     }
 
-    // handleResetEditLog = () => {
-    //     let newState = this.state;
-    //     newState.logEntryToEdit = null;
-    //     this.state = newState;
-    // }
-
+    // TODO: Rename to handleLogEntered
     handleNewLogEntered = () => {
         this.forceUpdate(); //TODO: Find better solution to force table to redraw
     }

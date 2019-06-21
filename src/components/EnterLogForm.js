@@ -127,6 +127,25 @@ function EnterLog(props) {
               .catch((error) => {
                   console.log(error);
               })
+    } else {
+      let config = {
+        headers: {
+            'Authorization': 'Token  ' + props.data.beToken
+        }
+      }
+      // Add dateTime back in (removed to fix bug with selector)
+      let newValues = values;
+      newValues.dateTime = selectedDate;
+      let body = newValues;
+      console.log(body);
+      axios.put(BE_SERVER + "/api/my_entries/" + logEntryToEditID + "/", body, config) 
+              .then((response) => {
+                  console.log("added new log")
+                  props.handleNewLogEntered();
+              })
+              .catch((error) => {
+                  console.log(error);
+              })
     }
     handleClose()
     
