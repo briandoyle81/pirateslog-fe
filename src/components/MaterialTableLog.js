@@ -49,7 +49,6 @@ function RemoteData(props) {
         // This is being clever and using one for all switches
         // Not sure if it is necessary or wise
         setState({...state, showOnlyUserEntries: event.target.checked });
-        console.log("state in handleSwitch: ", state)
         tableRef.current.onQueryChange() //TODO:  Figure out why this works
     }
 
@@ -176,7 +175,6 @@ function RemoteData(props) {
             }
           }
         //   let body = { pk: id };
-          console.log(config);
           axios.delete(BE_SERVER + "/api/my_entries/" + id, config) 
                   .then((response) => {
                     //refresh table
@@ -194,7 +192,6 @@ function RemoteData(props) {
             }
           }
           let body = { id: id };
-          console.log(config);
           axios.post(BE_SERVER + "/remove_me/", body, config) 
                   .then((response) => {
                     //refresh table

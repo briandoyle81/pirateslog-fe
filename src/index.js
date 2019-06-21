@@ -164,7 +164,6 @@ class App extends Component {
         }
         axios.post(BE_SERVER + "/verify_gamertag/", body, config) 
                 .then((response) => {
-                    console.log(response)
                     // TODO: Response should be whole profile
                     let newState = this.state;
                     let bool = false;

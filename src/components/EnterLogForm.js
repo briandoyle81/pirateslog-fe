@@ -129,10 +129,8 @@ function EnterLog(props) {
       let newValues = values;
       newValues.dateTime = selectedDate;
       let body = newValues;
-      console.log(body);
       axios.post(BE_SERVER + "/create_log/", body, config) 
               .then((response) => {
-                  console.log("added new log")
                   props.handleNewLogEntered();
               })
               .catch((error) => {
@@ -148,10 +146,8 @@ function EnterLog(props) {
       let newValues = values;
       newValues.dateTime = selectedDate;
       let body = newValues;
-      console.log(body);
       axios.put(BE_SERVER + "/api/my_entries/" + logEntryToEditID + "/", body, config) 
               .then((response) => {
-                  console.log("added new log")
                   props.handleNewLogEntered();
               })
               .catch((error) => {
@@ -167,13 +163,11 @@ function EnterLog(props) {
       ...oldValues,
       [event.target.name]: event.target.value,
     }));
-    console.log(values);
   }
 
   function handleIslandSelect(island) {
     let newValues = values;
     newValues.island = island;
-    console.log(newValues.island)
     setValues(newValues);
   }
 
@@ -181,11 +175,6 @@ function EnterLog(props) {
     let newValues = values;
     newValues.crew = crew;
     setValues(newValues);
-  }
-
-
-  function handleClickEdit(entry) {
-    console.log(entry);
   }
 
   function handleClose() {
