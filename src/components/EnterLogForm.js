@@ -17,6 +17,7 @@ import Input from '@material-ui/core/Input';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import FilledInput from '@material-ui/core/FilledInput';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 import Avatar from '@material-ui/core/Avatar';
 import {
@@ -218,26 +219,28 @@ function EnterLog(props) {
           {editModeTitle}
         </DialogTitle>
         <DialogContent>
-          <KeyboardDatePicker
-            margin="normal"
-            id="mui-pickers-date"
-            label="Date picker"
-            value={selectedDate}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-          <KeyboardTimePicker
-            margin="normal"
-            id="mui-pickers-time"
-            label="Time picker"
-            value={selectedDate}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-              'aria-label': 'change time',
-            }}
-          />
+          {/* <Grid>
+            <KeyboardDatePicker
+              margin="normal"
+              id="mui-pickers-date"
+              label="Date picker"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+            <KeyboardTimePicker
+              margin={"normal"}
+              id="mui-pickers-time"
+              label="Time picker"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change time',
+              }}
+            />
+          </Grid> */}
           <form className={classes.root} autoComplete="off">
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="enemy-ship">Enemy</InputLabel>

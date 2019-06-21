@@ -204,7 +204,7 @@ function RemoteData(props) {
 
     return (
     <div>
-        <MaterialTable
+        <MaterialTable style={ {padding: '10px 10px'} }
             title={'All Logs'}
             tableRef={tableRef}
             columns={[
