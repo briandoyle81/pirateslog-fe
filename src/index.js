@@ -10,12 +10,17 @@ import './index.css';
 import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import { ThemeProvider } from '@material-ui/styles'
+
+import { createMuiTheme } from '@material-ui/core/styles';
 
 // Custom Components
 import NavBar from './components/NavBar.js'
 import RemoteData from './components/MaterialTableLog'
 import EnterLog from './components/EnterLogForm'
 import GetGamertag from './components/GetGamerTag';
+
+import thunderbird from './components/theme';
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -24,6 +29,20 @@ import DateFnsUtils from '@date-io/date-fns';
 const axios = require('axios');
 const DEBUG_TOKEN = process.env.REACT_APP_DEBUG_TOKEN;
 const BE_SERVER = process.env.REACT_APP_BE_SERVER;
+
+// const theme = createMuiTheme({
+//     palette: {
+//         primary1Color: "#e64a19",
+//         canvasColor: "#fffde7",
+//         textColor: "#4e342e",
+//         secondaryTextColor: "#795548",
+//         accent1Color: "#ffea00",
+//         accent3Color: "#a1887f",
+//         accent2Color: "#8d6e63",
+//         primary3Color: "#d7ccc8",
+//         primary2Color: "#00bcd4"
+//     }
+// })
 
 class App extends Component {
 
@@ -215,12 +234,14 @@ class App extends Component {
         return (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <div className="app">
-                    <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange}/>
-                    <Container maxWidth="lg">
-                        <Divider />
-                        <RemoteData beToken={this.state.beToken} userProfile={this.state.userProfile} handleEditLog={this.handleEditLog}/>
-                        { addLog }
-                    </Container>
+                    <ThemeProvider theme={thunderbird}>
+                        <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange}/>
+                        <Container maxWidth="lg">
+                            <Divider />
+                            <RemoteData beToken={this.state.beToken} userProfile={this.state.userProfile} handleEditLog={this.handleEditLog}/>
+                            { addLog }
+                        </Container>
+                    </ThemeProvider>
                 </div>
             </MuiPickersUtilsProvider>
         )

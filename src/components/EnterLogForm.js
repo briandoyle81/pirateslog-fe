@@ -211,7 +211,7 @@ function EnterLog(props) {
   )
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={props.handleOpenLogForm}>
+      <Button variant="contained" color="primary" onClick={props.handleOpenLogForm}>
         Enter New Log
       </Button>
       <Dialog open={props.data.openForm} onClose={handleClose} aria-labelledby="form-dialog-title">
