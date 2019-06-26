@@ -16,17 +16,31 @@ import medTears from '../static/images/med_tears.svg'
 import medTreasure from '../static/images/med_treasure.svg'
 import meg from '../static/images/meg.svg'
 import skelleon from '../static/images/skelleon.svg'
+import { withStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
   avatar: {
     margin: 10,
+    backgroundColor: '#fff'
   },
   bigAvatar: {
     margin: 10,
     width: 60,
     height: 60,
+    backgroundColor: '#fff'
   },
 });
+
+// TODO: Exporting this causes errors
+// function NoneAvatar() {
+//   const classes = useStyles();
+
+//   return (
+//     <Grid container justify="center" alignItems="center">
+//       <Avatar alt="None" className={classes.avatar}>-</Avatar>
+//     </Grid>
+//   );
+// }
 
 function SloopAvatar() {
   const classes = useStyles();
@@ -168,7 +182,10 @@ function ShipCloudAvatar() {
   );
 }
 
-export  {
+// const StyledNoneAvatar = withStyles(useStyles)(NoneAvatar)
+
+export {
+  // StyledNoneAvatar,
   SloopAvatar,
   BrigAvatar,
   GalleonAvatar,

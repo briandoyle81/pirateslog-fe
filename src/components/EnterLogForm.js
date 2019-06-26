@@ -62,6 +62,13 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: {
     marginTop: theme.spacing(2),
   },
+  avatar: {
+    backgroundColor: '#b4e3f6',
+  },
+  avatarMenu: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 function EnterLog(props) {
@@ -252,47 +259,47 @@ function EnterLog(props) {
                   id: 'enemy-ship',
                 }}
               >
-                <MenuItem value={'U'}>
-                  <Avatar>
+                <MenuItem value={'U'} className={classes.avatarMenu}>
+                  <Avatar className={classes.avatar}>
                     ?
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'S'}>
+                <MenuItem value={'S'} className={classes.avatarMenu}>
                   <Avatar>
                     <SloopAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'B'}>
+                <MenuItem value={'B'} className={classes.avatarMenu}>
                   <Avatar>
                     <BrigAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'G'}>
+                <MenuItem value={'G'} className={classes.avatarMenu}>
                   <Avatar>
                     <GalleonAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'K'}>
+                <MenuItem value={'K'} className={classes.avatarMenu}>
                   <Avatar>
                     <KarenAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'M'}>
+                <MenuItem value={'M'} className={classes.avatarMenu}>
                   <Avatar>
                     <MegAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'SK'}>
+                <MenuItem value={'SK'} className={classes.avatarMenu}>
                   <Avatar>
                     <SkelleonAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'F'}>
+                <MenuItem value={'F'} className={classes.avatarMenu}>
                   <Avatar>
                     <FortAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'SC'}>
+                <MenuItem value={'SC'} className={classes.avatarMenu}>
                   <Avatar>
                     <ShipCloudAvatar />
                   </Avatar>
@@ -309,22 +316,22 @@ function EnterLog(props) {
                   id: 'treasure',
                 }}
               >
-                <MenuItem value={'U'}>
-                  <Avatar>
+                <MenuItem value={'U'} className={classes.avatarMenu}>
+                  <Avatar className={classes.avatar}>
                     ?
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'N'}>
-                  <Avatar>
-                    N 
+                <MenuItem value={'N'} className={classes.avatarMenu}>
+                  <Avatar className={classes.avatar}>
+                    -
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'L'}>
+                <MenuItem value={'L'} className={classes.avatarMenu}>
                   <Avatar>
                     <LowTreasureAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'H'}>
+                <MenuItem value={'H'} className={classes.avatarMenu}>
                   <Avatar>
                     <HighTreasureAvatar />
                   </Avatar>
@@ -341,22 +348,22 @@ function EnterLog(props) {
                   id: 'tears',
                 }}
               >
-                <MenuItem value={'U'}>
-                  <Avatar>
+                <MenuItem value={'U'} className={classes.avatarMenu}>
+                  <Avatar className={classes.avatar}>
                     ?
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'N'}>
-                  <Avatar>
-                    N 
+                <MenuItem value={'N'} className={classes.avatarMenu}>
+                  <Avatar className={classes.avatar}>
+                    - 
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'L'}>
+                <MenuItem value={'L'} className={classes.avatarMenu}>
                   <Avatar>
                     <LowTearsAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'H'}>
+                <MenuItem value={'H'} className={classes.avatarMenu}>
                   <Avatar>
                     <HighTearsAvatar />
                   </Avatar>
@@ -373,22 +380,22 @@ function EnterLog(props) {
                   id: 'my-ship',
                 }}
               >
-                <MenuItem value={'U'}>
-                  <Avatar>
+                <MenuItem value={'U'} className={classes.avatarMenu}>
+                  <Avatar className={classes.avatar}>
                     ?
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'S'}>
+                <MenuItem value={'S'} className={classes.avatarMenu}>
                   <Avatar>
                     <SloopAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'B'}>
+                <MenuItem value={'B'} className={classes.avatarMenu}>
                   <Avatar>
                     <BrigAvatar />
                   </Avatar>
                 </MenuItem>
-                <MenuItem value={'G'}>
+                <MenuItem value={'G'} className={classes.avatarMenu}>
                   <Avatar>
                     <GalleonAvatar />
                   </Avatar>

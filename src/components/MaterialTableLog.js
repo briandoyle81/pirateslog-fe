@@ -5,6 +5,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox'
+import { makeStyles } from '@material-ui/core/styles';
+
 
 import Avatar from '@material-ui/core/Avatar';
 import {
@@ -31,7 +33,14 @@ const BE_SERVER = process.env.REACT_APP_BE_SERVER;
 const SHOW_ALL_ENDPOINT = "/api/entries/";
 const SHOW_MY_ENDPOINT = "/api/my_entries/";
 
+const useStyles = makeStyles({
+    avatar: {
+      backgroundColor: '#b4e3f6'
+    },
+  });
+
 function RemoteData(props) {
+    const classes = useStyles();
     const [state, setState] = React.useState({
         showOnlyUserEntries: true, // Set to true here by default.  Lack of token will prevent error below
     })
@@ -55,12 +64,12 @@ function RemoteData(props) {
     function getTreasureIcon(treasure) {
         switch(treasure) {
             case 'U':
-                return(<Avatar>
+                return(<Avatar className={classes.avatar}>
                         ?
                     </Avatar>)
             case 'N':
-                return(<Avatar>
-                        N
+                return(<Avatar className={classes.avatar}>
+                        -
                     </Avatar>)
             case 'L':
                 return(<Avatar>
@@ -80,12 +89,12 @@ function RemoteData(props) {
     function getTearsIcon(tears) {
         switch(tears) {
             case 'U':
-                return(<Avatar>
+                return(<Avatar className={classes.avatar}>
                         ?
                     </Avatar>)
             case 'N':
-                return(<Avatar>
-                        N
+                return(<Avatar className={classes.avatar}>
+                        -
                     </Avatar>)
             case 'L':
                 return(<Avatar>
