@@ -43,8 +43,9 @@ function NavBar(props) {
     const logout = () => {
       console.log("Logging Out");
       props.handleLoginStateChange( null );
-
+      localStorage.removeItem('google_token') // TODO: Handle all auth
       setToken(null);
+      setGamertag(null);
     }
 
     const onFailure = (error) => {
@@ -63,6 +64,7 @@ function NavBar(props) {
     }
 
     const googleResponse = (response) => {
+      localStorage.setItem('google_token', JSON.stringify(response.tokenObj)) // TODO: Handle all auth
       props.handleLoginStateChange(
         response.tokenObj, "google");
 
@@ -76,7 +78,7 @@ function NavBar(props) {
     //       clientId={MICROSOFT_CLIENT_ID}
     //       authCallback={microsoftAuthHandler}
     //       /> */}
-    let loginButton = token != null ? 
+    let loginButton = gamertag != null ? 
       (
         <Button onClick={ logout } color="inherit">Logout</Button>
       ):
@@ -87,6 +89,7 @@ function NavBar(props) {
             buttonText="Login"
             onSuccess={googleResponse}
             onFailure={onFailure}
+            cookiePolicy={'single_host_origin'}
           />
         </div>
       );

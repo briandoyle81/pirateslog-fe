@@ -15,7 +15,6 @@ function GetGamertag(props) {
   const [verified, setVerified] = useState(true); // Start as true to avoid render
                                                   // Won't be needed when profile is returned with login
   useEffect(() => {
-    console.log("effect in getGamerTag, props are: ", props.data)
     if(props.data.userProfile != null) {
       setRegisteredTag(props.data.userProfile.gamertag)
       setVerified(props.data.userProfile.verified)

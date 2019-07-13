@@ -65,6 +65,7 @@ class App extends Component {
 
         this.getIslands(); // Get and cache the list of islands
         this.getProfiles(); //TODO: This will be a problem with more users
+        this.checkForLoginToken();
     }
 
     getProfiles = () => {
@@ -89,6 +90,15 @@ class App extends Component {
             .catch((error) => {
                 console.log(error);
         })
+    }
+
+    checkForLoginToken = () => {
+        let local_token_string = localStorage.google_token
+        if(local_token_string != null){
+            let local_token = JSON.parse(local_token_string);
+            // TODO: Other auth
+            this.handleLoginStateChange(local_token, "google");
+        }
     }
 
     handleOpenLogForm = () => {
