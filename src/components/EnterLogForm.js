@@ -19,6 +19,11 @@ import FilledInput from '@material-ui/core/FilledInput';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+
 import Avatar from '@material-ui/core/Avatar';
 import {
     SloopAvatar,
@@ -104,6 +109,7 @@ function EnterLog(props) {
     island: suggestions[0],
     crew: null,
     myShip: 'U',
+    loss: false,
   });
 
   useEffect(() => {
@@ -120,6 +126,7 @@ function EnterLog(props) {
       logValues.island = suggestions.filter(island => island.label === props.data.logEntryToEdit.island);
       logValues.crew = crewSuggestions.filter(profile => props.data.logEntryToEdit.crew.includes(profile.label));
       logValues.myShip = props.data.logEntryToEdit.myShip;
+      logValues.loss = props.data.logEntryToEdit.loss;
       setValues(logValues);
       setSelectedDate(props.data.logEntryToEdit.encounterTime)
       setlogEntryToEditID(props.data.logEntryToEdit.id)
@@ -172,6 +179,10 @@ function EnterLog(props) {
       [event.target.name]: event.target.value,
     }));
   }
+
+  const handleCheckboxChange = name => event => {
+    setValues({ ...values, [name]: event.target.checked });
+  };
 
   function handleIslandSelect(island) {
     let newValues = values;
@@ -405,6 +416,12 @@ function EnterLog(props) {
           </form>
           {getCrew}
           <GetIslandSelection data={props.data} island={values.island} suggestions={suggestions} handleIslandSelect={handleIslandSelect}/>
+          <FormControlLabel
+            control={
+              <Checkbox checked={values.loss} onChange={handleCheckboxChange('loss')} value="loss" />
+            }
+            label="Loss"
+          />
           {/* <TextField
             margin="dense"
             id="name"

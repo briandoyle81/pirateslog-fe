@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 function NavBar(props) {
     const classes = useStyles();
     const [token, setToken] = useState(props.data.token);
-    const [gamertag, setGamertag] = useState("Unknown")
+    const [gamertag, setGamertag] = useState(null)
 
     useEffect(() => {
       if(props.data.userProfile != null) {
@@ -102,7 +102,7 @@ function NavBar(props) {
               <MenuIcon />
             </IconButton> */}
             <Typography variant="h6" className={classes.title}>
-              { props.data.userProfile != null ? gamertag + "'s Log" : "Pirate's Log"}
+              { gamertag != null ? gamertag + "'s Log" : "Pirate's Log"}
             </Typography>
             { loginButton }
           </Toolbar>
