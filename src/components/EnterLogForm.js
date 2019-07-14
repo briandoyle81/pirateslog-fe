@@ -418,7 +418,7 @@ function EnterLog(props) {
           <GetIslandSelection data={props.data} island={values.island} suggestions={suggestions} handleIslandSelect={handleIslandSelect}/>
           <FormControlLabel
             control={
-              <Checkbox checked={values.loss} onChange={handleCheckboxChange('loss')} value="loss" />
+              <Checkbox color="secondary" checked={values.loss} onChange={handleCheckboxChange('loss')} value="loss" />
             }
             label="Loss"
           />
