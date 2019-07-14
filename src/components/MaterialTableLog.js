@@ -168,7 +168,7 @@ function RemoteData(props) {
                                 inputProps={{ 'aria-label': 'primary checkbox'} }
                             />
                         }
-                        label="Show My Logs"
+                        label="Show Only My Logs"
                     />
                 </FormGroup>
         </div>
