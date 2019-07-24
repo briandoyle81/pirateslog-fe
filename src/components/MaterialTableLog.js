@@ -232,7 +232,7 @@ function RemoteData(props) {
                 ),
             },
             {
-                title: 'Enemy',
+                title: 'Encounter',
                 field: 'avatar',
                 render: rowData => (
                             getShipIcon(rowData.enemyShip)
@@ -262,7 +262,7 @@ function RemoteData(props) {
                     ),
             },
             { 
-                title: 'Crew', 
+                title: 'Known Crew', 
                 field: 'crew',
                 render: rowData => (
                     <div>
