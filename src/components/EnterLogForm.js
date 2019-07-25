@@ -123,7 +123,8 @@ function EnterLog(props) {
       logValues.enemyShip = props.data.logEntryToEdit.enemyShip;
       logValues.treasure = props.data.logEntryToEdit.treasure;
       logValues.tears = props.data.logEntryToEdit.tears;
-      logValues.island = suggestions.filter(island => island.label === props.data.logEntryToEdit.island);
+      logValues.island = suggestions.filter(island => island.label === props.data.logEntryToEdit.island)[0];
+      console.log(logValues.island);
       logValues.crew = crewSuggestions.filter(profile => props.data.logEntryToEdit.crew.includes(profile.label));
       logValues.myShip = props.data.logEntryToEdit.myShip;
       logValues.loss = props.data.logEntryToEdit.loss;
@@ -131,6 +132,7 @@ function EnterLog(props) {
       setSelectedDate(props.data.logEntryToEdit.encounterTime)
       setlogEntryToEditID(props.data.logEntryToEdit.id)
     }
+    console.log(values.island)
   }, [props.data.openForm, props.data.logEntryToEdit]) // To avoid extra calls, DO NOT put `suggestions` here 
 
   function handleSubmit() {
