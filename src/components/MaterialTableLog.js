@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox'
 import { makeStyles } from '@material-ui/core/styles';
 
+import ConfirmationRemoveMeAlert from './ConfirmationRemoveMeAlert'
+
 
 import Avatar from '@material-ui/core/Avatar';
 import {
@@ -44,8 +46,11 @@ function RemoteData(props) {
     const [state, setState] = React.useState({
         showOnlyUserEntries: true, // Set to true here by default.  Lack of token will prevent error below
     })
+
+    const [removeMeRowID, setRemoveMeRowID] = React.useState(null);
     
     const tableRef = React.createRef();
+
 
     useEffect(() => {
         // Reset table
@@ -195,6 +200,7 @@ function RemoteData(props) {
     }
 
     function removeMeFromEntry(id) {
+        handleCloseRemoveMeConfirmation();
         let config = {
             headers: {
                 'Authorization': 'Token  ' + props.beToken
@@ -203,16 +209,37 @@ function RemoteData(props) {
           let body = { id: id };
           axios.post(BE_SERVER + "/remove_me/", body, config) 
                   .then((response) => {
-                    //refresh table
-                    tableRef.current.onQueryChange()
+                    // refresh table
+                    // need helper function because this used as callback
+                    getTableRef().current.onQueryChange();
                   })
                   .catch((error) => {
                       console.log(error);
                   })
     }
 
+    function handleCloseRemoveMeConfirmation() {
+        console.log("called handlecloseremoveme")
+        setRemoveMeRowID(null)
+    }
+
+    function handleRemoveMeConfirmation(rowID) {
+        console.log("handleRemoveMeConfirmation")
+        setRemoveMeRowID(rowID)
+        console.log("Setting row id to: ", removeMeRowID)
+    }
+
+    function getTableRef() {
+        return tableRef
+    }
+
     return (
     <div>
+        <ConfirmationRemoveMeAlert
+            rowID={removeMeRowID}
+            handleClose={handleCloseRemoveMeConfirmation}
+            removeMeFromEntry={removeMeFromEntry}
+        />
         <MaterialTable style={ {padding: '10px 10px'} }
             title={'All Logs'}
             tableRef={tableRef}
@@ -337,7 +364,7 @@ function RemoteData(props) {
                 rowData => ({
                     icon: 'report_problem',
                     tooltip: 'It wasn\'t me!',
-                    onClick: () => removeMeFromEntry(rowData.id),                      // TODO: Doesn't work with ===.  Why?
+                    onClick: () => {handleRemoveMeConfirmation(rowData.id)},                      // TODO: Doesn't work with ===.  Why?
                     disabled: (rowData.crew.filter(e => e === props.userProfile.gamertag) != props.userProfile.gamertag 
                                 || rowData.added_by === props.userProfile.gamertag)
                 })
