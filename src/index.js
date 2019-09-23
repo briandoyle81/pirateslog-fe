@@ -153,8 +153,6 @@ class App extends Component {
                     newState.userProfile = JSON.parse(response.data.profile);
                     newState.verified = newState.userProfile.verified;
                     this.setState(newState);
-                    console.log(token)
-
                 })
                 .catch((error) => {
                     console.log(error);
