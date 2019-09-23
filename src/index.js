@@ -70,6 +70,11 @@ class App extends Component {
         setInterval(() =>  {
             this.getProfiles()
         }, 1500000); // Keep heroku awake during use
+
+        setInterval(() => {
+            // Persistent Login: TODO: More research on this
+            this.checkForLoginToken()
+        }, 3000000)
     }
 
     getProfiles = () => {
@@ -148,6 +153,7 @@ class App extends Component {
                     newState.userProfile = JSON.parse(response.data.profile);
                     newState.verified = newState.userProfile.verified;
                     this.setState(newState);
+                    console.log(token)
 
                 })
                 .catch((error) => {

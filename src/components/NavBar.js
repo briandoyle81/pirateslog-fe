@@ -90,6 +90,9 @@ function NavBar(props) {
             onSuccess={googleResponse}
             onFailure={onFailure}
             cookiePolicy={'single_host_origin'}
+            responseType='token code'
+            prompt='consent'
+            accessType='offline'
           />
         </div>
       );
