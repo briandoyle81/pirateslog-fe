@@ -8,6 +8,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import { makeStyles } from '@material-ui/core/styles';
 
 import ConfirmationRemoveMeAlert from './ConfirmationRemoveMeAlert'
+import ConfirmationDeleteLogAlert from './ConfirmationDeleteLogAlert'
 
 
 import Avatar from '@material-ui/core/Avatar';
@@ -48,6 +49,9 @@ function RemoteData(props) {
     })
 
     const [removeMeRowID, setRemoveMeRowID] = React.useState(null);
+    const [deleteLogRowID, setDeleteLogRowID] = React.useState(null);
+
+    const [updateTrigger, setUpdateTrigger] = React.useState(true)
     
     const tableRef = React.createRef();
 
@@ -182,7 +186,13 @@ function RemoteData(props) {
        <div></div> // Override toolbar with empty div
     )
 
+    function updateTable() {
+        // Tickle state to trigger redraw
+        setUpdateTrigger(!updateTrigger)
+    }
+
     function deleteEntry(id) {
+        handleCloseDeleteLogConfirmation();
         let config = {
             headers: {
                 'Authorization': 'Token  ' + props.beToken
@@ -191,8 +201,7 @@ function RemoteData(props) {
         //   let body = { pk: id };
           axios.delete(BE_SERVER + "/api/my_entries/" + id, config) 
                   .then((response) => {
-                    //refresh table
-                    tableRef.current.onQueryChange()
+                    updateTable()
                   })
                   .catch((error) => {
                       console.log(error);
@@ -209,24 +218,27 @@ function RemoteData(props) {
           let body = { id: id };
           axios.post(BE_SERVER + "/remove_me/", body, config) 
                   .then((response) => {
-                    // refresh table
-                    // need helper function because this used as callback
-                    getTableRef().current.onQueryChange();
+                    updateTable()
                   })
                   .catch((error) => {
                       console.log(error);
                   })
     }
 
+    function handleCloseDeleteLogConfirmation() {
+        setDeleteLogRowID(null);
+    }
+
+    function handleDeleteLogConfirmation(rowID) {
+        setDeleteLogRowID(rowID)
+    }
+
     function handleCloseRemoveMeConfirmation() {
-        console.log("called handlecloseremoveme")
-        setRemoveMeRowID(null)
+        setRemoveMeRowID(null);
     }
 
     function handleRemoveMeConfirmation(rowID) {
-        console.log("handleRemoveMeConfirmation")
-        setRemoveMeRowID(rowID)
-        console.log("Setting row id to: ", removeMeRowID)
+        setRemoveMeRowID(rowID);
     }
 
     function getTableRef() {
@@ -239,6 +251,11 @@ function RemoteData(props) {
             rowID={removeMeRowID}
             handleClose={handleCloseRemoveMeConfirmation}
             removeMeFromEntry={removeMeFromEntry}
+        />
+        <ConfirmationDeleteLogAlert
+            rowID={deleteLogRowID}
+            handleClose={handleCloseDeleteLogConfirmation}
+            deleteEntry={deleteEntry}
         />
         <MaterialTable style={ {padding: '10px 10px'} }
             title={'All Logs'}
@@ -358,7 +375,7 @@ function RemoteData(props) {
                 rowData => ({
                     icon: 'delete',
                     tooltip: 'Delete Log',
-                    onClick: () => {deleteEntry(rowData.id)},
+                    onClick: () => {handleDeleteLogConfirmation(rowData.id)},
                     disabled: rowData.added_by !== props.userProfile.gamertag
                 }),
                 rowData => ({
