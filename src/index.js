@@ -66,6 +66,10 @@ class App extends Component {
         this.getIslands(); // Get and cache the list of islands
         this.getProfiles(); //TODO: This will be a problem with more users
         this.checkForLoginToken();
+
+        setInterval(() =>  {
+            this.getProfiles()
+        }, 1500000); // Keep heroku awake during use
     }
 
     getProfiles = () => {
