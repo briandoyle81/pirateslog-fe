@@ -12,6 +12,10 @@ export default function ConfirmationDeleteLog(props) {
     props.deleteEntry(props.rowID);
   }
 
+  function handleClose() {
+    props.handleClose()
+  }
+
   return (
     <div>
       <Dialog
@@ -27,7 +31,7 @@ export default function ConfirmationDeleteLog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => props.handleClose} color="primary">
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
           <Button onClick={handleConfirm} color="primary" autoFocus>
