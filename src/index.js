@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { ThemeProvider } from '@material-ui/styles'
+import Box from '@material-ui/core/Box';
 
 import { createMuiTheme } from '@material-ui/core/styles';
 
@@ -24,6 +25,8 @@ import thunderbird from './components/theme';
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+
+import {Elements, StripeProvider} from 'react-stripe-elements'
 
 // Axios and Django
 const axios = require('axios');
@@ -250,18 +253,26 @@ class App extends Component {
         );
         
         return (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <div className="app">
-                    <ThemeProvider theme={thunderbird}>
-                        <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange}/>
-                        <Container maxWidth="lg">
-                            <Divider />
-                            <RemoteData beToken={this.state.beToken} userProfile={this.state.userProfile} handleEditLog={this.handleEditLog}/>
-                            { addLog }
-                        </Container>
-                    </ThemeProvider>
-                </div>
-            </MuiPickersUtilsProvider>
+            <StripeProvider apiKey="pk_test_3HwkKhMb7VQfCLGi1QFi6Srk00DF54TuUB">
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <div className="app">
+                        <ThemeProvider theme={thunderbird}>
+                            <NavBar data={this.state} handleLoginStateChange={this.handleLoginStateChange}/>
+                            <Container maxWidth="lg">
+                                <Box p={.5}>
+                                    <Divider />
+                                </Box>
+                                <Box p={.5}>
+                                    <RemoteData beToken={this.state.beToken} userProfile={this.state.userProfile} handleEditLog={this.handleEditLog}/>
+                                </Box>
+                                <Box p={.5}>
+                                    { addLog }
+                                </Box>
+                            </Container>
+                        </ThemeProvider>
+                    </div>
+                </MuiPickersUtilsProvider>
+            </StripeProvider>
         )
 }
 
