@@ -71,10 +71,10 @@ class App extends Component {
             this.getProfiles()
         }, 1500000); // Keep heroku awake during use
 
-        setInterval(() => {
-            // Persistent Login: TODO: More research on this
-            this.checkForLoginToken()
-        }, 3000000)
+        // setInterval(() => {
+        //     // Persistent Login: TODO: More research on this
+        //     this.checkForLoginToken()
+        // }, 3000000)
     }
 
     getProfiles = () => {
