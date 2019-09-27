@@ -19,6 +19,7 @@
     "react-microsoft-login": "^1.2.0",
     "react-scripts": "3.0.1",
     "react-select": "^3.0.4",
+    "react-stripe-elements": "^5.0.1",
     "react-twitter-auth": "0.0.13"
   },
   "scripts": {
